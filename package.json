@@ -1,6 +1,6 @@
 {
   "name": "aldina",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "An open-source engine that turns content and a theme into on-brand, print-grade documents. Built on ChoirMark.",
   "type": "module",
   "bin": {
