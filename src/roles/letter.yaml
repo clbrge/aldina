@@ -1,0 +1,94 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Christophe Le Bars
+# The letter ROLE VOCABULARY — the frozen interface.
+#
+# A closed set of semantic, presentation-free roles. Three consumers must agree on it:
+#   • author marks   — loose, mostly inferred (hint-not-contract); the same dictionary as below
+#   • AI router       — emits  data-role="<role>"  on the generated HTML
+#   • CSS grammar     — targets [data-role="<role>"]  (never positions, à la Zen-Garden-done-right)
+#
+# Adding/removing a role is a BREAKING interface change. Roles carry no layout — placement is
+# decided by constraints/letter.yaml (window pin, letterhead absorb, flow order, signature-space).
+# This set is also the COVERAGE REQUIREMENT for Part I: every role must have a home in a layout.
+#
+# card  = cardinality per letter (0..1, 1..n, 0..n)
+# struct= structured (has sub-parts) vs atomic line/prose
+
+class: letter
+
+roles:
+  # ── envelope / addressing ─────────────────────────────────────────────
+  sender-block:
+    desc: Who the letter is from — name, title, org, address lines.
+    card: 0..1
+    struct: true
+    note: When letterhead ≠ off, satisfied by the brand zone and omitted from flow.
+  recipient-block:
+    desc: Inside address — who the letter is to.
+    card: 0..1            # absent in "To Whom It May Concern" letters
+    struct: true
+    note: Pinned into the window zone when window ≠ off (placement = pinned).
+  date:
+    desc: Date of writing, optionally with place ("Westbrook, June 25, 2026").
+    card: 0..1
+    struct: false
+  reference-fields:
+    desc: Labeled business reference band — your-ref / our-ref / your-message-of / customer-no / invoice-no.
+    card: 0..1
+    struct: true          # list of label:value
+    note: Formal/business (DIN). Parked from the scrlttr2 cross-check; not yet in the corpus.
+  handling-notation:
+    desc: Postal handling line shown in the window above the address (REGISTERED, PRIORITY).
+    card: 0..1
+    struct: false
+    note: Window letters only.
+  subject:
+    desc: Subject / RE line ("RE: Termination of Supply Agreement #PC-2291").
+    card: 0..1
+    struct: false
+
+  # ── opening ───────────────────────────────────────────────────────────
+  salutation:
+    desc: The greeting ("Dear Mr. Chen,", "To Whom It May Concern,").
+    card: 0..1
+    struct: false
+
+  # ── body ──────────────────────────────────────────────────────────────
+  body-paragraph:
+    desc: A paragraph of letter prose.
+    card: 1..n
+    struct: false
+  list:
+    desc: An enumerated or bulleted list within the body.
+    card: 0..n
+    struct: true          # ordered | unordered + items
+
+  # ── closing ───────────────────────────────────────────────────────────
+  closing:
+    desc: The complimentary close ("Sincerely,").
+    card: 0..1
+    struct: false
+  signature-block:
+    desc: Signer identity below the close — name, title, org, contact.
+    card: 0..1
+    struct: true
+    note: Reserves form.signature-space (blank gap) above the typed name for a wet signature.
+
+  # ── trailing ──────────────────────────────────────────────────────────
+  enclosures:
+    desc: Enclosure notation ("Enc.: ...").
+    card: 0..1
+    struct: false
+  cc:
+    desc: Carbon-copy notation ("cc: ...").
+    card: 0..1
+    struct: false
+  postscript:
+    desc: Postscript ("P.S. ...").
+    card: 0..n
+    struct: false
+
+# ── NOT roles : brand zones / page chrome (owned by the `letterhead` family + paged media) ──
+# Supplied by the letterhead profile + pagination, NOT emitted from the ChoirMark content.
+# Listed only to mark the boundary between content roles and zone chrome.
+not-roles: [letterhead-header, continuation-header, footer, page-number]

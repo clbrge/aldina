@@ -1,0 +1,39 @@
+name: Release and Publish
+
+on:
+  release:
+    types: [created]  # Triggered when a GitHub Release is created
+
+# `id-token: write` is required for npm trusted publishing via GitHub
+# OIDC (https://docs.npmjs.com/trusted-publishers). `contents: read`
+# is standard for checkout.
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: "https://registry.npmjs.org"
+
+      # Trusted publishing requires npm >= 11.5.1 for OIDC support.
+      # Node 22 ships with npm 10.x.
+      - name: Upgrade npm to OIDC-capable version
+        run: npm install -g npm@latest
+
+      # No NODE_AUTH_TOKEN: npm CLI auto-detects the OIDC environment
+      # and exchanges it for a short-lived registry token via the
+      # trusted-publisher config on npmjs.com. Provenance attestation
+      # is generated automatically under trusted publishing.
+      #
+      # aldina is a pure-JS package with no runtime dependencies and
+      # nothing to build, so there is no `npm ci`/build step here —
+      # `npm publish` packs the `files` listed in package.json directly.
+      - name: Publish aldina package
+        run: npm publish --provenance

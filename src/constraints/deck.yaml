@@ -1,0 +1,109 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Christophe Le Bars
+# Constraint tree for the `deck` document class.
+#
+# Decks are FIXED-VIEWPORT SPATIAL units, not flow. A slide is a CANVAS of placed ZONES — the
+# window-zone primitive from letters, generalized from "one pinned role" to "the whole slide".
+# Hard-constraints are LEAN; diversity comes from two bounded, closed axes:
+#   • TOKENS              → visual diversity (type / colour / rhythm / density)   [the reskin axis]
+#   • SLIDE-ROLE ARCHETYPES → compositional diversity (which layout)              [the arrangement axis]
+# Both closed ⇒ output stays "always-good" while looking varied.
+#
+# Per-slide layout is JUDGMENT, not flow: classify the slide by slide-role → pick an archetype
+# (a set of zones) → fill/size the zones. Committed placement, GATED by `fit`, RE-JUDGED on failure
+# (another archetype / split the slide). Zones are GRID-RELATIVE (proportional, scale with the
+# canvas) — unlike the letter window, which was fixed physical coords (the envelope is physical).
+# Admission is THIN (mostly "fits the slide"); hierarchy / balance / pacing are the soft judge.
+# Serialization (yaml→json) provisional, as with letter.yaml.
+
+class: deck
+
+# ── tokens : visual diversity (the reskin axis) — note DISTANCE-legible type, larger than print ──
+tokens:
+  aspect:
+    "16x9": { w: 1280, h: 720 }      # logical units; the render scales up
+    "4x3":  { w: 1024, h: 768 }
+  space:
+    unit:   8px
+    margin: 64px                     # slide margin = the safe-area inset
+    gutter: 32px
+  grid:
+    cols: 12
+    rows: 8
+  type:                              # readable from the back of the room — much larger than letters
+    display: 56px                    # big-statement / hero
+    title:   40px
+    body:    24px
+    caption: 18px
+    leading: 1.2
+  ink:
+    primary: '#16181d'
+    muted:   '#5b626e'
+    subtle:  '#8b93a1'
+    inverse: '#ffffff'
+  brand:
+    ink:         '#16181d'
+    accent:      '#3b6cff'
+    surface:     '#ffffff'
+    surface-alt: '#f4f6fa'
+
+# ── canvas constraints (the page level — lean) ──
+defaults:
+  flow: off                          # fixed viewport — slides do NOT flow (≠ letter)
+  aspect: "16x9"
+  margin: $space.margin
+  safe-area: $space.margin           # nothing critical outside this
+  grid: $grid                        # zones are placed in grid units
+
+# ── slide-role → archetype : the GRAMMAR (compositional-diversity axis) ──
+# Two-tier roles: a slide-role picks the archetype; element-roles fill its zones.
+# Each slide-role maps to a few archetypes; the AI picks by content, fills, and `fit` gates it.
+slide-roles:
+  title:         [hero-centered]
+  agenda:        [list-centered, two-col-list]
+  section:       [divider-centered]               # section transition
+  content:       [title-bullets, two-column, title-body]
+  big-statement: [statement-centered, statement-bleed]
+  big-stat:      [stat-hero, stat-grid]
+  quote:         [quote-centered, quote-bleed]
+  comparison:    [table-full, two-col-compare]
+  data:          [table-full, chart-caption]
+  visual:        [image-bleed, image-caption, image-split]
+  closing:       [hero-centered, cta-centered]
+
+# ── archetypes : zone sets (grid-unit rects + accepted element-roles). Two shown to fix the model;
+#                 the full library lives with the deck grammar. ──
+archetypes:
+  title-bullets:
+    zones:
+      title:  { col: [1, 12], row: [1, 2], roles: [slide-title, kicker] }
+      body:   { col: [1, 8],  row: [3, 8], roles: [bullet-group, callout, numbered-steps] }
+      visual: { col: [9, 12], row: [3, 8], roles: [visual, big-stat], optional: true }
+  stat-hero:
+    zones:
+      stat:    { col: [1, 12], row: [3, 6], roles: [big-stat], align: center }
+      caption: { col: [1, 12], row: [6, 7], roles: [caption, callout], align: center }
+
+# ── chrome : repeating per-slide zones (the zone primitive, like letter letterhead/footer) ──
+chrome:
+  footer:        { edge: bottom,       roles: [footer],               pages: all, except: [title] }
+  page-number:   { corner: bottom-right,                              pages: all, except: [title, section] }
+  confidential:  { edge: top,          roles: [confidential-marking], pages: all, when: confidential }
+
+# ── projection targets : which roles render where (projection-conditional roles) ──
+projection:
+  slide:     { exclude: [speaker-notes] }                       # projected / exported slide
+  presenter: { include: [speaker-notes] }                       # presenter view
+  handout:   { include: [speaker-notes], layout: notes-beside }
+
+# ── validators : THIN (admission). Everything else is the soft judge. ──
+validators:
+  fit:         true                  # content fits its zone — THE central deck check; overflow → re-judge
+  safe-area:   $safe-area            # nothing critical outside the safe area / in the bleed
+  contrast:    { min: 4.5 }
+  min-font:    18px                  # distance legibility — a larger floor than print
+  tokens-only: true
+soft-judge: [hierarchy, balance, whitespace, pacing, slide-segmentation]
+
+# RESKIN NOTE: a token swap changes type sizes → can overflow a zone. Re-run `fit` after a swap.
+# Decks are NOT free-reskin (unlike flowing letters); the token axis is gated by the fit check.

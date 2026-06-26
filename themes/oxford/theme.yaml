@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Christophe Le Bars
+# Theme manifest — Oxford.
+name: oxford
+description: Classic professional — serif, navy, restrained.
+classes: [letter]          # grammars present in this theme (deck/folio to come)
+tokens: tokens.css
+grammars:
+  letter: letter.css
+assets: {}                 # logo / letterhead — none

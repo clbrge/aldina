@@ -1,0 +1,74 @@
+{
+  "name": "aldina",
+  "version": "0.0.1",
+  "description": "An open-source engine that turns content and a theme into on-brand, print-grade documents. Built on ChoirMark.",
+  "type": "module",
+  "bin": {
+    "aldina": "./src/aldina.js"
+  },
+  "exports": "./src/aldina.js",
+  "files": [
+    "src",
+    "themes",
+    "PIPELINE.md",
+    "LICENSING.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "lint": "standard",
+    "test": "node --test",
+    "prerelease": "npm run lint && npm run test",
+    "release": "release-it"
+  },
+  "keywords": [
+    "aldina",
+    "choirmark",
+    "document",
+    "pdf",
+    "typesetting",
+    "document-generation",
+    "themes"
+  ],
+  "author": "Christophe Le Bars",
+  "license": "AGPL-3.0-or-later",
+  "homepage": "https://aldina.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clbrge/aldina.git"
+  },
+  "bugs": {
+    "url": "https://github.com/clbrge/aldina/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public",
+    "provenance": true
+  },
+  "release-it": {
+    "hooks": {
+      "before:bump": "grep -q '^## \\[${version}\\]' CHANGELOG.md || (echo 'CHANGELOG.md is missing a ## [${version}] section — add it before releasing.' >&2 && exit 1)",
+      "after:bump": "npm install --package-lock-only --ignore-scripts"
+    },
+    "git": {
+      "commitMessage": "release: v${version}",
+      "requireUpstream": false,
+      "tagName": "v${version}",
+      "push": true
+    },
+    "npm": {
+      "publish": false
+    },
+    "github": {
+      "release": true,
+      "releaseName": "aldina v${version}",
+      "releaseNotes": "awk '/^## \\[${version}\\]/{flag=1;next}/^## \\[/{flag=0}flag' CHANGELOG.md"
+    }
+  },
+  "devDependencies": {
+    "release-it": "^20.2.0",
+    "standard": "^17.1.2"
+  }
+}

@@ -1,0 +1,11 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Oxford theme — TOKENS (the shared skin, used by every grammar in the theme). */
+:root{
+  --font-body: "Source Serif 4", Georgia, serif;
+  --type-body: 11pt; --type-fine: 9.5pt;
+  --leading: 1.4; --measure: 34em;
+  --margin: 1in; --space-unit: 6pt;
+  --ink: #1a1a1a; --ink-muted: #3a3a3a; --ink-inverse: #fff;
+  --brand-accent: #1d4ed8;
+}

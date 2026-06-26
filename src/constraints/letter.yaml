@@ -1,0 +1,154 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Christophe Le Bars
+# Constraint tree for the `letter` document class.
+#
+# Six constraint families, cascading: class defaults → format node → (rare) instance override.
+# Values reference tokens ($...). Swapping the token set reskins WITHOUT touching this tree —
+# that's the free-reskin property. Serialization (yaml vs js) is provisional; the SHAPE is the point.
+#
+# What you SET lives here (constraints). What you CHECK lives in `validators` (derived, always-on).
+
+class: letter
+
+# ── tokens : the swappable skin (one default set shown) ─────────────────────────────
+tokens:
+  page:
+    us-letter: { w: 8.5in,  h: 11in }
+    a4:        { w: 210mm,  h: 297mm }
+    a5:        { w: 148mm,  h: 210mm }
+    note-card: { w: 4.25in, h: 5.5in }      # folded A2 note, portrait
+  space:
+    unit:        6pt
+    margin:      1in
+    margin-card: 0.5in
+  type:
+    body:    11pt
+    leading: 1.4
+  font:
+    body: '"Source Serif", Georgia, serif'
+  ink:                          # text colour BY ROLE importance — near-neutral, contrast-validated
+    primary: '#1a1a1a'          # body; → true black (#000, K-only) on the print projection
+    muted:   '#3a3a3a'          # signature title, enclosures, cc
+    subtle:  '#5a5a5a'          # footer, page chrome
+    inverse: '#ffffff'          # text on dark brand bands
+
+# ── window profiles : recipient address must show through an envelope window ─────────
+# A window profile PINS the recipient-block to an absolute zone on the page (page
+# coordinates from top-left). Sourced from the envelope + fold — NOT derivable from
+# content. `zone.verify: true` = numbers are typical and MUST be confirmed by a physical
+# print-fold-check before trusting. Each profile pairs with exactly one page (guarded).
+windows:
+  us-10-left:                   # US #10, left window, letter tri-fold  →  pairs with us-letter
+    pairs: us-letter
+    envelope: { type: "#10", w: 9.5in, h: 4.125in,
+                window: { w: 4.5in, h: 1.125in, left: 0.875in, bottom: 0.5in } }
+    fold: tri-c                 # fold in thirds, C / letter fold
+    zone: { x: 1in, y: 2in, w: 4in, h: 1in, verify: true }
+
+  din-dl:                       # DL window envelope, DIN address field  →  pairs with a4
+    pairs: a4
+    std: [DIN-680, DIN-5008]    # window position + letter address-field standards
+    envelope: { type: DL, w: 220mm, h: 110mm,
+                window: { w: 90mm, h: 45mm, left: 20mm, bottom: 15mm } }
+    fold: tri-c
+    zone: { x: 20mm, y: 45mm, w: 85mm, h: 27.3mm, verify: true }   # DIN 5008 form B Anschriftfeld
+
+# ── letterhead profiles : brand / corporate-identity graphics in reserved zones ──────
+# Brand-LAYER config — swappable per brand (same letter, different identity = free reskin).
+# A zone = a named rect (edge-anchored band OR explicit rect, so "anywhere") + an asset +
+# how flow relates to it + which pages it appears on.
+#   flow: reserve  → content is inset out of the zone (header/footer)
+#   flow: overlay  → asset sits behind text; content ignores it (watermark)
+# `bleed: true` lets a zone exceed print-safe-area on purpose (a named exception, not silent).
+letterhead:
+  off: {}                       # plain paper (default)
+
+  acme-corp:                    # example brand profile
+    zones:
+      header:
+        edge: top               # full-width band on an edge; `height` gives the band depth
+        height: 1.25in
+        asset: $brand.logo-header
+        flow: reserve           # body inset below it
+        pages: first            # big logo header on page 1 only
+        bleed: true             # band reaches the paper edge → exempt from print-safe-area
+      continuation-header:
+        edge: top
+        height: 0.5in
+        asset: $brand.logo-mini
+        flow: reserve
+        pages: continuation     # lighter running header on pages 2+
+      footer:
+        edge: bottom
+        height: 0.6in
+        asset: $brand.footer-legal     # address / registration / contact strip
+        flow: reserve
+        pages: all              # repeats on every page
+      watermark:
+        rect: { x: center, y: center, w: 4in, h: 4in }   # arbitrary placement ("anywhere")
+        asset: $brand.watermark
+        flow: overlay           # behind text; must keep contrast ≥ 4.5
+        pages: all
+
+# ── class defaults : root of the cascade ────────────────────────────────────────────
+defaults:
+  orientation: portrait
+  flow: true                    # letters always flow; paginate on overflow (invite-card is a different class)
+  margins: $space.margin
+
+  window: off                   # off | <profile>. When set, recipient-block is PINNED to windows.<profile>.zone
+                                #   and the body flows below zone.bottom. Set per instance — typically on
+                                #   mailed-formal letters (business, payment-demand, complaint, cover).
+
+  placement:                    # per-role layout mode
+    recipient-block: flow       # flow | pinned  (→ pinned automatically when `window` ≠ off)
+    # every other role flows
+
+  letterhead: off               # off | <profile>. `reserve` zones inset the content box PER PAGE
+                                #   (page-1 header vs continuation header differ → content box is page-dependent).
+
+  type:
+    size:    $type.body
+    family:  $font.body
+    leading: $type.leading
+
+  spacing:                      # vertical rhythm, in multiples of $space.unit
+    unit:      $space.unit
+    paragraph: 1                # between body paragraphs
+    block:     2                # between letter blocks (sender / date / recipient / salutation / …)
+
+  form:
+    block-style:      full      # full | modified
+    body-align:       left      # left (ragged) | justify
+    paragraph-indent: 0
+    signature-space:  3         # blank lines above the typed name for a wet signature (0 = digital)
+
+# ── format nodes : specialize the root; override only what differs ──────────────────
+formats:
+  us-letter: { page: $page.us-letter }                                   # inherits all defaults
+  a4:        { page: $page.a4 }
+  a5:        { page: $page.a5,        margins: 0.75in, type: { size: 10.5pt } }   # smaller stock → tighter type
+  note-card: { page: $page.note-card, margins: $space.margin-card, spacing: { block: 1 } }  # short notes only
+
+# ── validators : CHECKED, never set per-letter (the admission gate) ─────────────────
+validators:
+  measure:         { min: 45ch, max: 75ch }          # readability; validates margins × type
+  keep-together:   [signature-block, closing+signature]
+  no-orphan:       [salutation, last-line]            # widow/orphan control across page breaks
+  print-safe-area: 0.25in                             # no content in the unprintable edge
+  contrast:        { min: 4.5 }
+  min-font:        9pt
+  tokens-only:     true                               # emitted CSS carries no literal values
+
+  # window mode only (when `window` ≠ off) — pure geometric checks on the rendered page:
+  window-fit:        { role: recipient-block, within: window.zone }   # bbox(recipient-block) ⊆ zone — the key check
+  window-exclusive:  { zone: window.zone, allow: [recipient-block] }  # nothing else intrudes on the window
+  window-contiguous: recipient-block                                  # never split; one solid block
+  window-min-font:   { role: recipient-block, min: 8pt }              # postal / OCR legibility
+  window-page-pair:  true                                             # windows.<profile>.pairs must equal the active page
+
+  # letterhead mode only (when `letterhead` ≠ off):
+  content-avoids-reserve: true                        # no flowing content box intersects a `reserve` zone
+  asset-fits-zone:        true                        # each asset contained in its zone, aspect kept, ≥300dpi for print
+  watermark-contrast:     { min: 4.5 }                # body text over an `overlay` asset still meets contrast
+  bleed-handling:         { bleed-area: 0.125in }     # `bleed` zones extend into bleed + crop marks; others obey print-safe-area
