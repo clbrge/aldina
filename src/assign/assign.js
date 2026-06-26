@@ -18,7 +18,7 @@ export function loadRoles (klass) {
     let inRoles = false
     for (const line of y.split('\n')) {
       if (/^roles:/.test(line)) { inRoles = true; continue }
-      if (inRoles) { if (/^\S/.test(line)) break; const m = line.match(/^  ([a-z][\w-]*):\s*$/); if (m) vocab.add(m[1]) }
+      if (inRoles) { if (/^\S/.test(line)) break; const m = line.match(/^ {2}([a-z][\w-]*):\s*$/); if (m) vocab.add(m[1]) }
     }
   } catch { /* no roles file */ }
   return vocab
@@ -30,7 +30,7 @@ function assignDeck (src) {
   for (const chunk of src.split(/^---\s*$/m)) {
     if (!chunk.trim()) continue
     const am = chunk.match(/\{([^}]*)\}/)
-    let archetype = null, ink = false, rest = chunk
+    let archetype = null; let ink = false; let rest = chunk
     if (am) {
       const cls = (am[1].match(/\.([\w-]+)/g) || []).map(s => s.slice(1))
       ink = cls.includes('ink'); archetype = cls.find(c => c !== 'ink' && c !== 'slide') || null

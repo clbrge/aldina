@@ -29,17 +29,17 @@ const PINNED = { letter: new Set(['sender-block', 'date', 'recipient-block']) }
 
 // deck: per-archetype role→zone routing (the deterministic "route"; archetypes are author-marked)
 const DECK_ZONES = {
-  title:     { eyebrow: 'mark', 'big-statement': 'hero', subtitle: 'hero', caption: 'foot' },
-  content:   { eyebrow: 'eyebrow', 'slide-title': 'title', 'body-paragraph': 'body', caption: 'aside' },
+  title: { eyebrow: 'mark', 'big-statement': 'hero', subtitle: 'hero', caption: 'foot' },
+  content: { eyebrow: 'eyebrow', 'slide-title': 'title', 'body-paragraph': 'body', caption: 'aside' },
   statement: { 'big-statement': 'statement' },
-  stat:      { eyebrow: 'eyebrow', 'big-stat': 'stat', caption: 'caption' },
-  colophon:  { motto: 'mark', subtitle: 'mark', caption: 'foot' }
+  stat: { eyebrow: 'eyebrow', 'big-stat': 'stat', caption: 'caption' },
+  colophon: { motto: 'mark', subtitle: 'mark', caption: 'foot' }
 }
 
 function composeDeck (roleHtml, theme, themeDir) {
   const slides = [...roleHtml.matchAll(/<section\s+data-archetype="([\w-]*)"(\s+data-ink)?>([\s\S]*?)<\/section>/g)].map(sec => {
-    const arch = sec[1], ink = !!sec[2], map = DECK_ZONES[arch] || {}
-    const zones = {}, order = []
+    const arch = sec[1]; const ink = !!sec[2]; const map = DECK_ZONES[arch] || {}
+    const zones = {}; const order = []
     for (const e of [...sec[3].matchAll(/<(div|h\d|p|ul|ol)\s+data-role="([\w-]+)"[^>]*>[\s\S]*?<\/\1>/g)]) {
       const z = map[e[2]] || 'body'
       if (!zones[z]) { zones[z] = []; order.push(z) }

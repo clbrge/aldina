@@ -18,35 +18,35 @@ import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import { assign, toRoleHtml } from './assign/assign.js'
 import { compose } from './compose.js'
-import { validate, reportText } from './harness/validate.js'
+import { validate } from './harness/validate.js'
 
 // ── LLM checkpoints — IDENTITY today (no API). Idempotent: complete-if-incomplete, else passthrough.
 //    Wiring an LLM into a body activates it for the inputs that need it, WITHOUT changing the flow. ──
-const resolveRoles = (model /* , ctx */) => model       // ① resolve conf<high role flags; identity if none
-const route = (forme /* , ctx */) => forme               // ② route content WITHIN the grammar: deck archetype/slide-break, folio floats; identity if the grammar determines placement
-const repair = (forme, _findings /* , ctx */) => forme   // ③ repair gate findings; identity when admitted
+const resolveRoles = (model /* , ctx */) => model // ① resolve conf<high role flags; identity if none
+const route = (forme /* , ctx */) => forme // ② route content WITHIN the grammar: deck archetype/slide-break, folio floats; identity if the grammar determines placement
+const repair = (forme, _findings /* , ctx */) => forme // ③ repair gate findings; identity when admitted
 
 export function run (src, klass = 'letter', theme = null, themeDir = null) {
   const trace = []
   const t = (stage, note) => trace.push({ stage, note })
 
-  let { meta, model } = assign(src, klass)                                    // deterministic
+  let { meta, model } = assign(src, klass) // deterministic
   const residual = model.filter(o => o.conf && o.conf !== 'high').length
   t('assign', `${model.length} blocks · ${residual} residual`)
 
-  let m0 = model; model = resolveRoles(model)                                 // ① checkpoint
+  const m0 = model; model = resolveRoles(model) // ① checkpoint
   t('resolve-roles', model === m0 ? `identity${residual ? ` (stub; ${residual} kept as deterministic guess)` : ''}` : 'active')
 
-  let forme = compose(toRoleHtml(model, klass, meta), klass, theme, themeDir)  // deterministic — into the theme's grammar
+  let forme = compose(toRoleHtml(model, klass, meta), klass, theme, themeDir) // deterministic — into the theme's grammar
   t('compose', `forme · ${meta.format || klass}${theme ? ` · theme=${theme}` : ''}`)
 
-  let f0 = forme; forme = route(forme)                                        // ② checkpoint (route within grammar)
+  const f0 = forme; forme = route(forme) // ② checkpoint (route within grammar)
   t('route', forme === f0 ? 'identity (grammar determines placement)' : 'active')
 
-  let res = validate(forme)                                                   // gate
+  let res = validate(forme) // gate
   t('gate', res.passed ? 'PASS' : `FAIL (${res.findings.filter(f => f.status === 'fail').length})`)
 
-  let iters = 0                                                               // ③ checkpoint (bounded loop)
+  let iters = 0 // ③ checkpoint (bounded loop)
   while (!res.passed && iters++ < 3) {
     const before = forme; forme = repair(forme, res.findings)
     if (forme === before) { t('repair', 'identity (stub) — no progress; stopping'); break }
