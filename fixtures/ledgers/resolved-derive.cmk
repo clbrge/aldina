@@ -1,0 +1,35 @@
+---
+class: ledger
+type: invoice
+format: us-letter
+---
+
+:::issuer-block
+Halyard Works\
+9 Drydock Lane\
+Portland, ME 04101
+:::
+
+:::recipient-block
+Cedar & Co.\
+attn. Marisol Vega\
+540 Birch Street\
+Portland, OR 97204
+:::
+
+::document-meta[Invoice INV-5012 · Issued June 28, 2026 · Due July 28, 2026 · Net 30]
+
+:::line-items{cols="description qty unit-price amount"}
+| Description | Qty | Unit price | Amount |
+|---|--:|--:|--:|
+| Design sprint | 1 | $5,000.00 |  |
+| User research | 8 hrs | $125.00 | $1,000.00 |
+| Revisions | 6 hrs | $125.00 | $750.00 |
+:::
+
+::tax[$517.50]
+
+:::payment-terms
+Please remit by ACH to the account on file. The subtotal and total below are computed by the engine
+from the line items and the stated tax.
+:::

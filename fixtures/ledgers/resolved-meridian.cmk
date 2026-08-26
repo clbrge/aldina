@@ -1,0 +1,38 @@
+---
+class: ledger
+type: invoice
+format: us-letter
+---
+
+:::issuer-block
+Meridian Studio\
+118 Cooper Street, Suite 4\
+Austin, TX 78701
+:::
+
+:::recipient-block
+Northwind Outfitters\
+attn. Priya Raman\
+2200 Lakeshore Blvd\
+Chicago, IL 60611
+:::
+
+::document-meta[Invoice INV-4821 · Issued June 26, 2026 · Due July 26, 2026 · Net 30]
+
+:::line-items{cols="description qty unit-price amount"}
+| Description | Qty | Unit price | Amount |
+|---|--:|--:|--:|
+| Brand strategy workshop | 1 | $2,400.00 | $2,400.00 |
+| UX audit | 12 hrs | $150.00 | $1,800.00 |
+| Prototype design | 24 hrs | $150.00 | $3,600.00 |
+:::
+
+::subtotal[$7,800.00]
+::discount[−$780.00]
+::tax[$596.70]
+::total[$7,616.70]
+
+:::payment-terms
+Please remit by ACH to the account on file or by check payable to Meridian Studio. A 1.5% monthly
+service charge applies to balances past due.
+:::

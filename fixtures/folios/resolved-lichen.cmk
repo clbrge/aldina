@@ -1,0 +1,43 @@
+---
+class: folio
+class-variant: article
+title: Thermal Tolerance in Three Alpine Lichens
+authors: R. Almeida · K. Sato · M. Okonkwo
+lang: en
+---
+
+:::abstract
+We measured photosynthetic recovery in three alpine lichen species after repeated freeze–thaw
+cycling. All three resumed CO₂ uptake within minutes of thaw, and recovery time scaled with thallus
+water content (see [@fig:recovery]). The results suggest hydration state, not species, governs
+short-term thermal tolerance.
+:::
+
+# Introduction {#sec:intro}
+
+Alpine lichens endure repeated freeze–thaw cycles through the growing season. Prior surveys
+[@hahn2019; @ito2021] catalogued species ranges but not recovery dynamics. We quantify post-thaw
+recovery across three co-occurring species, building on the method of [@sec:methods].
+
+# Methods {#sec:methods}
+
+Thalli were cycled between −10 °C and +5 °C on a 90-minute period. Gas exchange was logged
+continuously and normalised to dry mass.
+
+:::figure{#fig:recovery}
+![Recovery curves](data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMjAgMTgwIj48cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjE4MCIgZmlsbD0iI2Y0ZjJlYyIvPjxsaW5lIHgxPSI0MCIgeTE9IjE4IiB4Mj0iNDAiIHkyPSIxNTAiIHN0cm9rZT0iIzliOTU4YSIgc3Ryb2tlLXdpZHRoPSIxIi8+PGxpbmUgeDE9IjQwIiB5MT0iMTUwIiB4Mj0iMzAwIiB5Mj0iMTUwIiBzdHJva2U9IiM5Yjk1OGEiIHN0cm9rZS13aWR0aD0iMSIvPjxwYXRoIGQ9Ik00MCAxNDIgQzEyMCA3MCAyMTAgNDYgMzAwIDM0IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMzM2NTEiIHN0cm9rZS13aWR0aD0iMi41Ii8+PHBhdGggZD0iTTQwIDE0NiBDMTIwIDEyMiAyMTAgMTEwIDMwMCA5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOWEzYjJlIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWRhc2hhcnJheT0iNiA0Ii8+PC9zdmc+)
+
+Post-thaw CO₂ uptake as a function of thallus water content. Each curve is one species.
+:::
+
+# Results {#sec:results}
+
+Recovery time fell sharply above 40 % water content, as [@fig:recovery] shows. Differences between
+species were not statistically significant.
+
+# References
+
+:::refs
+1. Hahn, R. (2019). *Alpine cryptogams of the eastern ranges*. Mountain Press.
+2. Ito, K. (2021). Freeze tolerance in foliose lichens. *Journal of Bryology* 44, 210–218.
+:::

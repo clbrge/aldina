@@ -1,0 +1,38 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+@page{
+  size: A4; margin: 26mm;
+  @top-left{ content: string(doctag); font: 9pt var(--font-body); color: var(--ink-muted); }
+  @top-right{ content: counter(page); font: 9pt var(--font-body); color: var(--ink-muted); }
+}
+@media print{ :root{ --ink: #000; } }
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; background: var(--paper); }
+body{ font-feature-settings: var(--feat); }
+
+.statement{ font: var(--type-body)/var(--leading) var(--font-body); color: var(--ink); background: var(--paper); }
+
+[data-role="issuer-block"]{ float: inline-start; inline-size: 48%; line-height: 1.35; font-weight: 600; }
+[data-role="recipient-block"]{ float: inline-end; inline-size: 48%; text-align: end; color: var(--ink-muted); line-height: 1.35; }
+[data-role="document-meta"]{ clear: both; string-set: doctag content(); font-size: var(--type-fine); color: var(--ink-muted);
+  border-block: 1pt solid var(--rule); padding-block: var(--space-unit); margin-block: var(--space-block); }
+
+table[data-role="line-items"]{ inline-size: 100%; border-collapse: collapse; margin-block-end: var(--space-block);
+  font-feature-settings: "tnum" 1, "kern" 1; }
+table[data-role="line-items"] thead th{ font-size: var(--type-fine); font-weight: 600;
+  color: var(--ink-muted); text-align: start; padding: 5pt 6pt; border-block-end: 1pt solid var(--ink-muted); }
+table[data-role="line-items"] td{ padding: 5pt 6pt; border-block-end: .5pt solid var(--rule); }
+table[data-role="line-items"] tr{ break-inside: avoid; }
+table[data-role="line-items"] [align="right"]{ text-align: end; }
+
+[data-role="subtotal"], [data-role="discount"], [data-role="tax"], [data-role="total"]{
+  display: flex; justify-content: space-between; gap: 1em; inline-size: 46%; margin-inline-start: auto;
+  padding-block: 2pt; font-feature-settings: "tnum" 1, "kern" 1; break-inside: avoid; }
+[data-role="subtotal"]::before{ content: "Subtotal"; color: var(--ink-muted); }
+[data-role="discount"]::before{ content: "Discount"; color: var(--ink-muted); }
+[data-role="tax"]::before{ content: "Tax"; color: var(--ink-muted); }
+[data-role="total"]{ font-weight: 700; color: var(--brand-accent); border-block-start: 1.5pt solid var(--brand-accent); margin-block-start: 3pt; padding-block-start: 5pt; }
+[data-role="total"]::before{ content: "Total"; color: var(--ink); }
+
+[data-role="payment-terms"]{ clear: both; font-size: var(--type-fine); color: var(--ink-muted); line-height: 1.45;
+  border-block-start: .5pt solid var(--rule); padding-block-start: var(--space-unit); break-inside: avoid; }

@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Christophe Le Bars
+# Theme manifest — Parma (showcase: editorial high-contrast serif; a neutral vessel for the user's brand).
+name: parma
+description: Editorial — high-contrast display serif, magazine whitespace, claret accent. Showcase vessel.
+classes: [letter, folio, deck, ledger, brief]
+tokens: tokens.css
+grammars:
+  letter: letter.css
+  folio: folio.css
+  deck: deck.css
+  ledger: ledger.css
+  brief: brief.css
+assets: {}

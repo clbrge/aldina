@@ -1,0 +1,12 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Basel theme — TOKENS (the shared skin: Swiss/International — systematic sans, restrained palette). */
+:root{
+  --font-body: "Helvetica Neue", Arial, "Liberation Sans", sans-serif;
+  --font-display: var(--font-body);
+  --type-body: 10.5pt; --type-fine: 9pt;
+  --leading: 1.4; --measure: 32em;
+  --margin: 1in; --space-unit: 6pt;
+  --ink: #111111; --ink-muted: #767676; --ink-inverse: #fff; --paper: #fff;
+  --brand-accent: #c8102e;
+}

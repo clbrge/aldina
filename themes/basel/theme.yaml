@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Christophe Le Bars
+# Theme manifest — Basel.
+name: basel
+description: Swiss/International — systematic sans, grid, restrained.
+classes: [letter, deck, folio, brief, ledger]
+tokens: tokens.css
+grammars:
+  letter: letter.css
+  deck: deck.css
+  folio: folio.css
+  brief: brief.css
+  ledger: ledger.css
+assets: {}

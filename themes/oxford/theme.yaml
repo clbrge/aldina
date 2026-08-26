@@ -3,8 +3,9 @@
 # Theme manifest — Oxford.
 name: oxford
 description: Classic professional — serif, navy, restrained.
-classes: [letter]          # grammars present in this theme (deck/folio to come)
+classes: [letter, deck]    # grammars present in this theme (folio/ledger/brief to come)
 tokens: tokens.css
 grammars:
   letter: letter.css
+  deck: deck.css
 assets: {}                 # logo / letterhead — none

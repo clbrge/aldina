@@ -1,0 +1,54 @@
+---
+class: brief
+type: sell-sheet
+format: us-letter
+---
+
+::::zone{name=masthead}
+:::hero
+# Tideline Field Kit
+Everything a crew needs, in one rugged case.
+:::
+::::
+
+::::zone{name=main}
+:::feature
+A 20-tool set rated IP67 — survives the job site, rain or shine.
+:::
+
+:::feature
+Snap-fit tray reorganizes in seconds, with no loose parts to lose.
+:::
+
+:::group
+## Specifications
+
+| Spec | Value |
+|---|--:|
+| Tools | 20 |
+| Weight | 1.8 kg |
+| Rating | IP67 |
+:::
+::::
+
+::::zone{name=rail}
+:::stat
+4.9 stars across 1,200 reviews
+:::
+
+:::callout
+Cuts setup time in half on the average install.
+:::
+::::
+
+::::zone{name=footer}
+::price[$149]
+
+:::cta
+Order at tideline.example or call 1-800-555-0142.
+:::
+
+:::contact
+Tideline Gear · hello@tideline.example
+:::
+::::

@@ -1,0 +1,42 @@
+---
+class: brief
+type: capabilities
+format: us-letter
+---
+
+::::zone{name=letterhead}
+:::hero
+# Ashford & Lowe
+Restructuring and turnaround advisory for the mid-market.
+:::
+::::
+
+::::zone{name=practice}
+:::feature
+Operational restructuring — stabilise cash, reset the cost base, and rebuild the operating plan.
+:::
+
+:::feature
+Balance-sheet advisory — lender negotiations, refinancing, and capital structure.
+:::
+
+:::feature
+Transaction support — carve-outs, distressed M&A, and orderly wind-downs.
+:::
+::::
+
+::::zone{name=standing}
+:::stat
+£3.4bn restructured across 40 engagements
+:::
+
+:::callout
+Trusted by lenders, boards, and creditors' committees.
+:::
+::::
+
+::::zone{name=engagement}
+:::contact
+Ashford & Lowe · 12 Gresham Street, London EC2V · hello@ashfordlowe.example
+:::
+::::

@@ -1,0 +1,48 @@
+---
+class: brief
+type: spec-sheet
+format: us-letter
+---
+
+::::zone{name=head}
+:::hero
+# Meridian
+Usage metering and billing for API platforms.
+:::
+::::
+
+::::zone{name=capabilities}
+:::feature
+Meter any event — ingest usage at the edge and aggregate in real time.
+:::
+
+:::feature
+Price flexibly — tiers, overages, credits, and seats from one model.
+:::
+::::
+
+::::zone{name=spec}
+:::group
+## Specifications
+
+| Spec | Value |
+|---|--:|
+| Ingest latency | < 50 ms |
+| Throughput | 2M events/s |
+| Retention | 18 months |
+:::
+::::
+
+::::zone{name=metric}
+:::stat
+99.99% uptime
+:::
+::::
+
+::::zone{name=pricing}
+::price[$0.02 / 1k events]
+
+:::cta
+Start at meridian.example/start
+:::
+::::

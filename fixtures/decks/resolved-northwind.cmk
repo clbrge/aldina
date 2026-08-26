@@ -1,0 +1,51 @@
+---
+class: deck
+format: 16:9
+---
+
+:::slide
+::kicker[Launch · 2026]
+
+# Northwind ships in March
+
+The build server that sets itself up before your coffee is cold.
+:::
+
+:::slide
+::kicker[Why now]
+
+# Setup is where teams lose their first week
+:::
+
+:::slide{type=feature}
+# What ships day one
+
+- **Zero-config** — point it at a repo and it infers the whole pipeline.
+- **Parallel by default** — every stage fans out across the fleet.
+- **Reproducible** — the same inputs give the same build, every time.
+:::
+
+::::slide
+:::stat
+10×
+:::
+
+Median build time, down from nine minutes to under one.
+::::
+
+:::slide
+# Priced to adopt
+
+- Free for open source and solo builders, forever
+- Team plan flat per seat, no per-minute metering
+- Bring your own runners or use ours
+- Migrate in an afternoon — the config imports itself
+:::
+
+:::slide
+::kicker[Get early access]
+
+# Ship the first build this week
+
+::callout[northwind.example/early]
+:::

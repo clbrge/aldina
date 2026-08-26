@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Copyright (C) 2026 Christophe Le Bars
+# Theme manifest — Studio.
+name: studio
+description: Expressive display — full-bleed colour fields, oversized type.
+classes: [deck, brief]
+tokens: tokens.css
+grammars:
+  deck: deck.css
+  brief: brief.css
+assets: {}

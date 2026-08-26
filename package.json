@@ -4,19 +4,21 @@
   "description": "An open-source engine that turns content and a theme into on-brand, print-grade documents. Built on ChoirMark.",
   "type": "module",
   "bin": {
-    "aldina": "./src/aldina.js"
+    "aldina": "./src/cli/index.js"
   },
-  "exports": "./src/aldina.js",
+  "exports": "./src/run.js",
   "files": [
     "src",
     "themes",
-    "PIPELINE.md",
+    "ARCHITECTURE.md",
+    "THEME-AUTHORING.md",
     "LICENSING.md",
     "LICENSE"
   ],
   "scripts": {
     "lint": "standard",
     "test": "node --test",
+    "conformance": "node scripts/conformance.js",
     "prerelease": "npm run lint && npm run test",
     "release": "release-it"
   },
@@ -40,7 +42,7 @@
     "url": "https://github.com/clbrge/aldina/issues"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org",
@@ -67,8 +69,15 @@
       "releaseNotes": "awk '/^## \\[${version}\\]/{flag=1;next}/^## \\[/{flag=0}flag' CHANGELOG.md"
     }
   },
+  "dependencies": {
+    "choirmark": "^0.2.0",
+    "env-paths": "^4.0.0",
+    "mohdel": "^0.121.1",
+    "pagedjs": "^0.4.3",
+    "pdf-lib": "^1.17.1"
+  },
   "devDependencies": {
-    "release-it": "^20.2.0",
+    "release-it": "^20.2.1",
     "standard": "^17.1.2"
   }
 }

@@ -1,0 +1,26 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+:root{ --page-w: 8.5in; --page-h: 11in; --space-block: calc(var(--space-unit) * 2); }
+@page{ size: 8.5in 11in; margin: 0; }
+@media print{ :root{ --ink: #000; } }
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; background: var(--paper); }
+body{ font-feature-settings: var(--feat); }
+
+.page{ inline-size: var(--page-w); block-size: var(--page-h); padding: 20mm 24mm 26mm; overflow: hidden;
+  background: var(--paper); color: var(--ink); font: var(--type-body)/var(--leading) var(--font-body);
+  display: grid; gap: var(--space-block);
+  grid-template-columns: minmax(0,1.6fr) minmax(0,1fr); grid-template-rows: auto 1fr auto;
+  grid-template-areas: "cover cover" "work manifesto" "contact contact"; }
+
+[data-zone="cover"]{ grid-area: cover; padding-block-end: var(--space-block); border-block-end: 1pt solid var(--brand-accent); }
+[data-zone="work"]{ grid-area: work; display: flex; flex-direction: column; gap: var(--space-block); }
+[data-zone="manifesto"]{ grid-area: manifesto; align-self: center; }
+[data-zone="contact"]{ grid-area: contact; border-block-start: 1pt solid var(--rule); padding-block-start: var(--space-block); }
+
+[data-role="hero"] h1{ font-size: 50pt; font-weight: 700; line-height: 1.0; letter-spacing: -.005em; }
+[data-role="hero"] p{ font-size: 14pt; font-style: italic; color: var(--ink-muted); margin-block-start: 8pt; }
+[data-role="feature"]{ font-size: 12pt; padding-block-start: var(--space-unit); border-block-start: .5pt solid var(--hairline); }
+[data-role="callout"]{ font-size: 18pt; font-style: italic; line-height: 1.25; color: var(--brand-accent); }
+[data-role="contact"]{ font-size: var(--type-fine); font-style: italic; color: var(--ink-muted); }
+[data-role] a{ color: inherit; text-decoration: underline; }

@@ -1,0 +1,29 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+:root{ --space-paragraph: var(--space-unit); --space-block: calc(var(--space-unit) * 1.5); }
+@page{
+  size: 8.5in 11in; margin: 1in;
+  @top-left{ content: string(subj); font: 9pt var(--font-body); color: var(--ink-muted); }
+  @top-right{ content: counter(page); font: 9pt var(--font-body); color: var(--ink-muted); }
+}
+@page:first{ @top-left{ content: none; } @top-right{ content: none; } }
+@media print{ :root{ --ink: #000; } }
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; background: var(--paper); }
+body{ font-feature-settings: var(--feat); }
+
+.letter{ font: var(--type-body)/var(--leading) var(--font-body); color: var(--ink); background: var(--paper);
+  max-inline-size: var(--measure); text-align: start; }
+
+[data-role="sender-block"]{ font-weight: 600; line-height: 1.35; margin-block-end: var(--space-block); }
+[data-role="date"]{ color: var(--ink-muted); margin-block-end: var(--space-block); }
+[data-role="recipient-block"]{ line-height: 1.35; margin-block-end: var(--space-block); }
+[data-role="subject"]{ string-set: subj content(); font-weight: 700; color: var(--brand-accent);
+  display: inline-block; margin-block-end: var(--space-block); }
+[data-role="salutation"]{ margin-block-end: var(--space-block); }
+.letter > p{ margin-block: 0 var(--space-paragraph); }
+.letter > ul, .letter > ol{ margin-block: var(--space-paragraph) var(--space-block); padding-inline-start: 1.4em; }
+[data-role="closing"]{ margin-block-start: var(--space-block); }
+[data-role="signature-block"]{ break-inside: avoid; margin-block-start: calc(var(--leading) * 1em * 3); }
+[data-role="enclosures"], [data-role="cc"], [data-role="postscript"]{ font-size: var(--type-fine);
+  color: var(--ink-muted); margin-block-start: var(--space-block); break-inside: avoid; }

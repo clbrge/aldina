@@ -1,0 +1,45 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Ulm — DECK. Compositions DERIVE from what a slide holds (@layer defaults, via :has); an explicit
+   data-slide-type is a rare, conscious variation and wins via @layer variations. Base is layered so the
+   derivations can override it. safe center degrades an overflow to top so the gate catches it. */
+* { box-sizing: border-box; margin: 0; }
+@page { size: 1280px 720px; margin: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-feature-settings: var(--feat); }
+@media screen { section { margin-block-end: 24px; } }
+
+@layer base, defaults, variations;
+
+@layer base {
+  section { inline-size: 1280px; block-size: 720px; margin-inline: auto; margin-block: 0; overflow: hidden;
+    background: var(--paper); color: var(--ink); break-after: page;
+    padding: 80px 96px; display: flex; flex-direction: column; justify-content: flex-start; gap: .4em; }
+  section h1 { font-size: 66px; line-height: 1.02; font-weight: 700; letter-spacing: -.005em; }
+  section p, section li { font-size: 26px; line-height: 1.4; }
+  section p + p { margin-block-start: .5em; }
+  section ul, section ol { padding-inline-start: 1.1em; }
+  section li { margin-block: .15em; }
+  section a { color: inherit; text-decoration: underline; }
+  section em { font-style: italic; }
+  section strong { font-weight: 700; }
+  section table { border-collapse: collapse; inline-size: 100%; font-size: 22px; font-feature-settings: "tnum" 1, "kern" 1; }
+  section th, section td { text-align: start; padding: .4em .7em; border-block-end: 1px solid var(--hairline); }
+  section th { font-size: 17px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-muted); border-block-end: 2px solid var(--ink); }
+  section [data-role="kicker"] { font-size: 19px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--brand-accent); }
+  section [data-role="stat"] { font-size: 128px; font-weight: 700; line-height: .95; letter-spacing: -.005em; font-feature-settings: "tnum" 1, "kern" 1; }
+  section [data-role="callout"] { font-size: 32px; line-height: 1.3; border-inline-start: 6px solid var(--brand-accent); padding-inline-start: .5em; }
+  section [data-role="notes"] { display: none; }
+}
+
+@layer defaults {
+  section:not(:has(ul, ol, table, p ~ p)) { justify-content: safe center; align-items: center; text-align: center; }
+  section:not(:has(ul, ol, table, p ~ p)):has(h1) h1 { font-size: 88px; }
+  section:not(:has(h1)):has([data-role="callout"]) [data-role="callout"] { border-inline-start: 0; padding-inline-start: 0; font-size: 42px; }
+}
+
+@layer variations {
+  section[data-slide-type="feature"] { justify-content: center; }
+  section[data-slide-type="feature"] ul { list-style: none; padding-inline-start: 0; margin-block-start: .6em; display: grid; grid-template-columns: repeat(3, 1fr); gap: 52px; }
+  section[data-slide-type="feature"] li { font-size: 25px; line-height: 1.4; margin-block: 0; border-block-start: 3px solid var(--ink); padding-block-start: .5em; }
+  section[data-slide-type="feature"] li strong { display: block; text-transform: uppercase; letter-spacing: .05em; font-size: 19px; color: var(--brand-accent); margin-block-end: .35em; }
+}

@@ -1,0 +1,35 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Basel theme — LETTER grammar (logical-properties only, so it mirrors under RTL). Page + window-zone
+   geometry is external-artifact provenance, not brand — it stays here, not in tokens. The pivot flows
+   in as-is; the letterhead roles are pulled out absolutely and the body flows below the window. */
+:root{
+  --page-w: 8.5in; --page-h: 11in;
+  --win-x: 1in; --win-y: 2in; --win-w: 4in; --win-h: 1in;   /* us-10-left */
+  --space-paragraph: var(--space-unit);
+  --space-block: calc(var(--space-unit) * 1.5);
+}
+@page{ size: 8.5in 11in; margin: 0; }
+@media print{ :root{ --ink: #000; } }
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; }
+
+.page{ position: relative; inline-size: var(--page-w); block-size: var(--page-h);
+  padding: calc(var(--win-y) + var(--win-h)) var(--margin) var(--margin);
+  font: var(--type-body)/var(--leading) var(--font-body); color: var(--ink); background: var(--paper);
+  overflow: hidden; text-align: start; }
+
+[data-role="sender-block"]{ position: absolute; inset-block-start: .6in; inset-inline-start: var(--margin);
+  font-style: normal; line-height: 1.3; font-weight: 700; }
+[data-role="date"]{ position: absolute; inset-block-start: .6in; inset-inline-end: var(--margin); color: var(--ink-muted); }
+[data-role="recipient-block"]{ position: absolute; inset-inline-start: var(--win-x); inset-block-start: var(--win-y);
+  inline-size: var(--win-w); font-style: normal; line-height: 1.3; }
+
+.page > *{ max-inline-size: var(--measure); margin-block: 0 var(--space-paragraph); }
+[data-role="subject"]{ font-weight: 700; text-transform: uppercase; letter-spacing: .04em; display: inline-block;
+  padding-block-end: 3pt; border-block-end: 2pt solid var(--brand-accent); margin-block-end: var(--space-block); }
+[data-role="salutation"]{ margin-block-end: var(--space-block); }
+.page > ul, .page > ol{ margin-block: var(--space-paragraph) var(--space-block); padding-inline-start: 1.4em; }
+[data-role="closing"]{ margin-block-start: var(--space-block); margin-block-end: 0; }
+[data-role="signature-block"]{ margin-block-start: calc(var(--leading) * 1em * 3); }
+[data-role="enclosures"], [data-role="cc"]{ font-size: var(--type-fine); color: var(--ink-muted); margin-block-start: var(--space-block); }

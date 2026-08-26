@@ -1,0 +1,33 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+:root{ --page-w: 8.5in; --page-h: 11in; --space-block: calc(var(--space-unit) * 2); }
+@page{ size: 8.5in 11in; margin: 0; }
+@media print{ :root{ --ink: #000; } }
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; background: var(--paper); }
+body{ font-feature-settings: var(--feat); }
+
+.page{ inline-size: var(--page-w); block-size: var(--page-h); padding: 18mm; overflow: hidden;
+  background: var(--paper); color: var(--ink); font: var(--type-body)/var(--leading) var(--font-body);
+  display: grid; gap: var(--space-block);
+  grid-template-columns: minmax(0,1fr) minmax(0,1fr); grid-template-rows: auto 1fr auto auto;
+  grid-template-areas: "head head" "capabilities spec" "metric metric" "pricing pricing"; }
+
+[data-zone="head"]{ grid-area: head; border-block-end: 2pt solid var(--ink); padding-block-end: var(--space-block); }
+[data-zone="capabilities"]{ grid-area: capabilities; display: flex; flex-direction: column; gap: var(--space-block); }
+[data-zone="spec"]{ grid-area: spec; }
+[data-zone="metric"]{ grid-area: metric; border-block: 1pt solid var(--ink); padding-block: var(--space-block); }
+[data-zone="pricing"]{ grid-area: pricing; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-block);
+  border-block-start: 2pt solid var(--ink); padding-block-start: var(--space-block); }
+
+[data-role="hero"] h1{ font-size: 40pt; font-weight: 700; line-height: 1.0; letter-spacing: -.005em; }
+[data-role="hero"] p{ font-size: 13pt; color: var(--ink-muted); margin-block-start: 6pt; }
+[data-role="feature"]{ font-size: 12pt; padding-block-start: var(--space-unit); border-block-start: .5pt solid var(--hairline); }
+[data-role="group"] h2{ font-size: var(--type-fine); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-muted); margin-block-end: 5pt; }
+[data-role="group"] table{ inline-size: 100%; border-collapse: collapse; font-size: var(--type-fine); font-feature-settings: "tnum" 1, "kern" 1; }
+[data-role="group"] th, [data-role="group"] td{ padding: 3pt 4pt; border-block-end: .5pt solid var(--hairline); text-align: start; }
+[data-role="group"] td[align="right"], [data-role="group"] th[align="right"]{ text-align: end; }
+[data-role="stat"]{ font-size: 40pt; font-weight: 700; line-height: 1; letter-spacing: -.005em; font-feature-settings: "tnum" 1, "kern" 1; }
+[data-role="price"]{ font-size: 30pt; font-weight: 700; color: var(--brand-accent); font-feature-settings: "tnum" 1, "kern" 1; }
+[data-role="cta"]{ font-size: 12pt; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+[data-role] a{ color: inherit; text-decoration: underline; }

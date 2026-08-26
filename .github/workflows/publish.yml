@@ -23,9 +23,12 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       # Trusted publishing requires npm >= 11.5.1 for OIDC support.
-      # Node 22 ships with npm 10.x.
+      # Node 22 ships with npm 10.x. Pinned to 11: npm 12.0.0 installs
+      # without libnpmpublish's `sigstore` dep (dropped from npm's
+      # bundle manifest), so `publish --provenance` dies with
+      # MODULE_NOT_FOUND. Re-evaluate when npm 12.x ships a fix.
       - name: Upgrade npm to OIDC-capable version
-        run: npm install -g npm@latest
+        run: npm install -g npm@11
 
       # No NODE_AUTH_TOKEN: npm CLI auto-detects the OIDC environment
       # and exchanges it for a short-lived registry token via the

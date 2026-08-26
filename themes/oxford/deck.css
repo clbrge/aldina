@@ -1,0 +1,23 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Oxford theme — DECK grammar (MINIMAL, generic). Each slide is the carried `<section data-slide-type>`
+   (§9), serving as frame and padded centred content box; `safe center` keeps an overflowing slide
+   top-aligned so the gate sees the overrun. */
+
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--paper, #fff); color: var(--ink, #1a1a1a);
+  font-family: var(--font-body, Georgia, 'Times New Roman', serif); }
+
+section { width: 1280px; height: 720px; margin: 0 auto 24px; overflow: hidden; background: var(--paper, #fff);
+  padding: 64px 88px; display: flex; flex-direction: column; justify-content: safe center; gap: 0.5em; }
+
+section h1 { font-size: 56px; line-height: 1.08; color: var(--ink, #1a1a1a); }
+section p, section li { font-size: 24px; line-height: 1.45; }
+section ul, section ol { padding-left: 1.2em; }
+
+section [data-role="kicker"] { font-size: 18px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-muted, #5a5a5a); }
+section [data-role="stat"] { font-size: 46px; font-weight: 700; color: var(--ink, #1a1a1a); }
+section [data-role="callout"] { font-size: 28px; line-height: 1.3;
+  border-left: 4px solid var(--brand-accent, #7a1620); padding-left: 0.7em; }
+section [data-role="notes"] { display: none; }

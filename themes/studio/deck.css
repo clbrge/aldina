@@ -1,0 +1,35 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Studio — DECK (full-bleed dark field, poster-anchored, oversized display). Compositions DERIVE from
+   what a slide holds (@layer defaults, via :has): a sparse focal slide is centred with a display-scale
+   headline; a content slide (list/table) is top-left with a smaller headline. safe center degrades an
+   overflow to top so the gate catches it. Logical props. */
+* { box-sizing: border-box; margin: 0; }
+@page { size: 1280px 720px; margin: 0; }
+body { background: var(--field, #14121f); color: var(--ink-inverse, #f6f5f2); font-family: var(--font-display, Arial, sans-serif); }
+@media screen { section { margin-block-end: 24px; } }
+
+@layer base, defaults, variations;
+
+@layer base {
+  section { inline-size: 1280px; block-size: 720px; margin-inline: auto; margin-block: 0; overflow: hidden;
+    background: var(--field, #14121f); color: var(--ink-inverse, #f6f5f2); break-after: page;
+    padding: 80px 100px; display: flex; flex-direction: column; justify-content: flex-start; gap: .3em; }
+  section h1 { font-size: 56px; line-height: 1; font-weight: 900; letter-spacing: -.005em; }
+  section p, section li { font-size: 28px; line-height: 1.35; }
+  section ul, section ol { padding-inline-start: 1.1em; }
+  section a { color: inherit; text-decoration: underline; }
+  section table { border-collapse: collapse; inline-size: 100%; font-size: 24px; }
+  section th, section td { text-align: start; padding: .4em .7em; border-block-end: 1px solid rgba(255,255,255,.18); }
+  section th { font-size: 18px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--brand-accent, #ff3b30); }
+  section [data-role="kicker"] { font-size: 22px; letter-spacing: .18em; text-transform: uppercase; font-weight: 800; color: var(--brand-accent, #ff3b30); }
+  section [data-role="stat"] { font-size: 140px; font-weight: 900; line-height: .9; letter-spacing: -.005em; color: var(--brand-accent, #ff3b30); }
+  section [data-role="callout"] { font-size: 34px; line-height: 1.25; border-inline-start: 8px solid var(--brand-accent, #ff3b30); padding-inline-start: .6em; }
+  section [data-role="notes"] { display: none; }
+}
+
+@layer defaults {
+  section:not(:has(ul, ol, table, p ~ p)) { justify-content: safe center; align-items: center; text-align: center; }
+  section:not(:has(ul, ol, table, p ~ p)):has(h1) h1 { font-size: 104px; }
+  section:not(:has(h1)):has([data-role="callout"]) [data-role="callout"] { border-inline-start: 0; padding-inline-start: 0; font-size: 44px; }
+}

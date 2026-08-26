@@ -1,0 +1,63 @@
+---
+class: ledger
+type: statement
+class-variant: statement
+format: us-letter
+---
+
+:::issuer-block
+Oasis Advisory\
+118 Cooper Street, Suite 4\
+Austin, TX 78701
+:::
+
+:::recipient-block
+Northwind Outfitters\
+attn. Priya Raman\
+Chicago, IL 60611
+:::
+
+::document-meta[Statement ACCT-2026-03 · Period March 2026 · Net 30]
+
+:::line-items{cols="date description amount"}
+| Date | Description | Amount |
+|---|---|--:|
+| Mar 01 | Document review | $125.00 |
+| Mar 02 | Strategy session | $125.00 |
+| Mar 03 | Drafting | $125.00 |
+| Mar 04 | Revision pass | $125.00 |
+| Mar 05 | Stakeholder sync | $125.00 |
+| Mar 06 | Advisory call | $125.00 |
+| Mar 07 | Document review | $125.00 |
+| Mar 08 | Strategy session | $125.00 |
+| Mar 09 | Drafting | $125.00 |
+| Mar 10 | Revision pass | $125.00 |
+| Mar 11 | Stakeholder sync | $125.00 |
+| Mar 12 | Advisory call | $125.00 |
+| Mar 13 | Document review | $125.00 |
+| Mar 14 | Strategy session | $125.00 |
+| Mar 15 | Drafting | $125.00 |
+| Mar 16 | Revision pass | $125.00 |
+| Mar 17 | Stakeholder sync | $125.00 |
+| Mar 18 | Advisory call | $125.00 |
+| Mar 19 | Document review | $125.00 |
+| Mar 20 | Strategy session | $125.00 |
+| Mar 21 | Drafting | $125.00 |
+| Mar 22 | Revision pass | $125.00 |
+| Mar 23 | Stakeholder sync | $125.00 |
+| Mar 24 | Advisory call | $125.00 |
+| Mar 25 | Document review | $125.00 |
+| Mar 26 | Strategy session | $125.00 |
+| Mar 27 | Drafting | $125.00 |
+| Mar 28 | Revision pass | $125.00 |
+| Mar 29 | Stakeholder sync | $125.00 |
+| Mar 30 | Advisory call | $125.00 |
+:::
+
+::subtotal[$3,750.00]
+::tax[$300.00]
+::total[$4,050.00]
+
+:::payment-terms
+Please remit within 30 days by ACH or check payable to Oasis Advisory.
+:::

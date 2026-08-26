@@ -14,7 +14,7 @@ theme = { tokens (shared skin)  +  grammars[per class]  +  assets }
 - **assets** — logo, letterhead, etc.
 
 A theme is the deliverable of the **layout flow** run across classes under one token set + one design
-intent. The **output flow** (`src/aldina.js`) *consumes* a theme: it loads the theme's tokens + the
+intent. The **output flow** (`src/run.js`, via the `aldina` CLI) *consumes* a theme: it loads the theme's tokens + the
 class grammar and routes content into them. Swapping tokens within a theme is **free reskin**;
 switching to a theme with different *grammars* needs a re-route.
 
@@ -37,7 +37,7 @@ covers letter + deck + folio with shared tokens.
 ## Run
 
 ```bash
-node src/aldina.js <src.md> --class letter --theme oxford [--pdf out.pdf]
+aldina <src.cmk> --theme oxford [--pdf out.pdf]   # or: node src/cli/index.js <src.cmk> …
 ```
 
 Without `--theme`, `compose` falls back to the self-contained `grammar/<class>.css` (legacy).

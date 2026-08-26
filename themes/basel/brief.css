@@ -1,0 +1,41 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Basel theme — BRIEF grammar (single-page CSS-grid zone-map). The theme IS the zone map: each
+   `[data-zone=X]` lands in a named grid area; an unmapped zone auto-flows. Logical props only. */
+:root{
+  --page-w: 8.5in; --page-h: 11in;
+  --space-block: calc(var(--space-unit) * 2);
+}
+@page{ size: 8.5in 11in; margin: 0; }
+@media print{ :root{ --ink: #000; } }
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; }
+
+.page{ inline-size: var(--page-w); block-size: var(--page-h); padding: var(--margin); overflow: hidden;
+  background: var(--paper); color: var(--ink); font: var(--type-body)/var(--leading) var(--font-body);
+  display: grid; gap: var(--space-block);
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); grid-template-rows: auto 1fr auto;
+  grid-template-areas: "masthead masthead" "main rail" "footer footer"; }
+
+[data-zone]{ min-block-size: 0; }
+[data-zone="masthead"]{ grid-area: masthead; }
+[data-zone="main"]{ grid-area: main; display: flex; flex-direction: column; gap: var(--space-block); }
+[data-zone="rail"]{ grid-area: rail; display: flex; flex-direction: column; gap: var(--space-block);
+  border-inline-start: 2pt solid var(--brand-accent); padding-inline-start: var(--space-block); }
+[data-zone="footer"]{ grid-area: footer; display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: var(--space-block); border-block-start: 1pt solid #d8d8d8; padding-block-start: var(--space-block); }
+
+[data-role="hero"] h1{ font-size: 30pt; font-weight: 800; line-height: 1.04; letter-spacing: -.015em; }
+[data-role="hero"] p{ font-size: 13pt; color: var(--ink-muted); margin-block-start: 4pt; }
+[data-role="feature"]{ font-size: 12pt; padding-block-start: var(--space-unit); border-block-start: 1pt solid #d8d8d8; }
+[data-role="group"] h2{ font-size: var(--type-fine); text-transform: uppercase; letter-spacing: .06em;
+  color: var(--ink-muted); margin-block-end: 4pt; }
+[data-role="group"] table{ inline-size: 100%; border-collapse: collapse; font-size: var(--type-fine); }
+[data-role="group"] th, [data-role="group"] td{ padding: 2pt 4pt; border-block-end: .5pt solid #d8d8d8; text-align: start; }
+[data-role="group"] td[align="right"], [data-role="group"] th[align="right"]{ text-align: end; }
+[data-role="stat"]{ font-size: 16pt; font-weight: 700; line-height: 1.1; }
+[data-role="callout"]{ font-size: 12pt; line-height: 1.3; color: var(--ink-muted); }
+[data-role="price"]{ font-size: 28pt; font-weight: 800; color: var(--brand-accent); }
+[data-role="cta"]{ font-size: 12pt; font-weight: 700; }
+[data-role="contact"]{ font-size: var(--type-fine); color: var(--ink-muted); }
+[data-role] a{ color: inherit; text-decoration: underline; }

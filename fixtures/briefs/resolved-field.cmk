@@ -1,0 +1,34 @@
+---
+class: brief
+type: studio
+format: us-letter
+---
+
+::::zone{name=cover}
+:::hero
+# Field Studio
+Brand and editorial design for people with something to say.
+:::
+::::
+
+::::zone{name=work}
+:::feature
+Identity systems — marks, type, and the rules that keep them alive.
+:::
+
+:::feature
+Editorial — reports, books, and the long-form that earns attention.
+:::
+::::
+
+::::zone{name=manifesto}
+:::callout
+We make the considered thing, not the expected one.
+:::
+::::
+
+::::zone{name=contact}
+:::contact
+Field Studio · studio@field.example · field.example
+:::
+::::

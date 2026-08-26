@@ -4,3 +4,5 @@ derive/out/
 *.log
 .DS_Store
 formes/
+LOCAL.TODO.md
+AUDIT1.md

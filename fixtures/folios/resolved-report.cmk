@@ -1,0 +1,69 @@
+---
+class: folio
+class-variant: report
+title: Urban Tree Canopy and Summer Surface Temperature
+authors: M. Okonkwo · R. Almeida · K. Sato
+lang: en
+---
+
+:::abstract
+We surveyed tree-canopy cover and midday surface temperature across forty neighbourhood blocks in a
+mid-sized city over one summer. Blocks above 30% canopy ran 4–7 °C cooler at the pavement than blocks
+below 10%, and the relationship held after controlling for building density and surface material.
+:::
+
+# Introduction {#sec:intro}
+
+Cities accumulate heat through dark, impervious surfaces that absorb solar radiation by day and release
+it slowly at night. The result, an urban heat island, raises energy demand, worsens air quality, and
+falls hardest on residents without air conditioning. Tree canopy is among the few interventions that
+addresses the cause rather than the symptom: shade intercepts radiation before it reaches the ground,
+and transpiration moves heat into latent rather than sensible form.
+
+Prior work has mapped canopy and temperature at the scale of whole cities, but block-level variation is
+where planting decisions are actually made. A single street's choices — setback width, species, spacing
+— determine whether a block is liveable in August. We set out to measure that variation directly.
+
+# Methods {#sec:methods}
+
+We selected forty blocks stratified by building density and existing canopy, then logged surface
+temperature with a vehicle-mounted infrared array on three cloudless afternoons. Canopy cover was
+derived from leaf-on aerial imagery and verified on foot. Each block contributed a median temperature
+and a canopy fraction; we fit a mixed-effects model with density and dominant surface as covariates.
+
+Measurements were taken between 13:00 and 15:00 local time, when surface temperature peaks. We
+discarded readings within five metres of a moving vehicle's exhaust plume and averaged the remainder
+over a twenty-metre window.
+
+# Results {#sec:results}
+
+Canopy cover ranged from 4% to 52% across the sample. Midday surface temperature fell almost linearly
+with canopy up to roughly 35% cover, after which the marginal cooling flattened. Blocks above 30%
+canopy averaged 4–7 °C cooler than blocks below 10%, a gap large enough to move a hot afternoon out of
+the range associated with heat-related emergency visits.
+
+Building density mattered, but less than canopy: dense blocks with good canopy stayed cool, while open
+blocks with little canopy were the hottest in the sample. Surface material — asphalt versus lighter
+concrete — shifted the baseline but did not change the slope.
+
+# Discussion {#sec:discussion}
+
+The flattening above 35% suggests diminishing returns: the first trees on a bare block buy far more
+cooling than the last. For a planting budget, that argues for spreading effort across many under-treed
+blocks rather than concentrating it where canopy is already good.
+
+The effect size is practical, not just statistical. A 5 °C reduction at the pavement is the difference
+a pedestrian feels, and it compounds over a season into measurable cuts in cooling energy.
+
+# Conclusion
+
+Block-level canopy is a strong, actionable lever on summer surface temperature. The cooling is largest
+where canopy is currently lowest, which is also, in most cities, where vulnerable residents are
+concentrated. Targeted planting is therefore both the most effective and the most equitable option.
+
+# References
+
+:::refs
+1. Almeida, R. (2020). *Canopy and the urban thermal environment*. City Press.
+2. Sato, K. (2022). Surface temperature mapping at block scale. *Urban Climate* 41, 88–104.
+:::

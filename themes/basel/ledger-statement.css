@@ -1,0 +1,39 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Basel theme — LEDGER statement (multipage, flowing). The pivot flows in as-is: parties float to the
+   two top corners, the line-items table flows across A4 pages (thead repeats, rows stay whole), totals
+   are right-aligned blocks. Running header = document-meta + page counter. Logical properties only. */
+@page{
+  size: A4; margin: 20mm;
+  @top-left{ content: string(doctag); font: 9pt var(--font-body); color: var(--ink-muted); }
+  @top-right{ content: "Page " counter(page); font: 9pt var(--font-body); color: var(--ink-muted); }
+}
+@media print{ :root{ --ink: #000; } }
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; }
+
+.statement{ font: var(--type-body)/var(--leading) var(--font-body); color: var(--ink); background: var(--paper); }
+
+[data-role="issuer-block"]{ float: inline-start; inline-size: 48%; font-weight: 700; line-height: 1.3; }
+[data-role="recipient-block"]{ float: inline-end; inline-size: 48%; text-align: end; color: var(--ink-muted); line-height: 1.3; }
+[data-role="document-meta"]{ clear: both; string-set: doctag content(); font-size: var(--type-fine); color: var(--ink-muted);
+  border-block: 1pt solid #d8d8d8; padding-block: var(--space-unit); margin-block: calc(var(--space-unit) * 2); }
+
+table[data-role="line-items"]{ inline-size: 100%; border-collapse: collapse; margin-block-end: calc(var(--space-unit) * 2); }
+table[data-role="line-items"] thead th{ font-size: var(--type-fine); text-transform: uppercase; letter-spacing: .04em;
+  color: var(--ink-muted); text-align: start; padding: 4pt 6pt; border-block-end: 1.5pt solid var(--ink); }
+table[data-role="line-items"] td{ padding: 4pt 6pt; border-block-end: .5pt solid #e2e2e2; }
+table[data-role="line-items"] tr{ break-inside: avoid; }
+table[data-role="line-items"] [align="right"]{ text-align: end; font-variant-numeric: tabular-nums; }
+
+[data-role="subtotal"], [data-role="discount"], [data-role="tax"], [data-role="total"]{
+  display: flex; justify-content: space-between; gap: 1em; inline-size: 46%; margin-inline-start: auto;
+  padding-block: 2pt; font-variant-numeric: tabular-nums; break-inside: avoid; }
+[data-role="subtotal"]::before{ content: "Subtotal"; color: var(--ink-muted); }
+[data-role="discount"]::before{ content: "Discount"; color: var(--ink-muted); }
+[data-role="tax"]::before{ content: "Tax"; color: var(--ink-muted); }
+[data-role="total"]{ font-weight: 800; border-block-start: 1.5pt solid var(--ink); margin-block-start: 2pt; padding-block-start: 4pt; }
+[data-role="total"]::before{ content: "Total"; }
+
+[data-role="payment-terms"]{ clear: both; font-size: var(--type-fine); color: var(--ink-muted); line-height: 1.4;
+  border-block-start: .5pt solid #d8d8d8; padding-block-start: var(--space-unit); break-inside: avoid; }

@@ -1,0 +1,48 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Basel theme — FOLIO shared grammar (role/float/citation/heading styling for both the single-page
+   `article` and multipage `report` containers). The page container + @page live in the per-variant
+   overlays (folio-article.css, folio-report.css) so each forme has exactly one @page. Logical only. */
+:root{
+  --space-paragraph: var(--space-unit);
+  --space-block: calc(var(--space-unit) * 1.5);
+}
+@media print{ :root{ --ink: #000; } }
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; }
+
+.doc-head{ column-span: all; border-block-end: 2pt solid var(--brand-accent);
+  padding-block-end: var(--space-unit); margin-block-end: var(--space-block); }
+.doc-title{ font-size: 20pt; font-weight: 800; line-height: 1.1; letter-spacing: -.01em; }
+.authors{ font-size: var(--type-fine); color: var(--ink-muted); margin-block-start: 3pt; }
+[data-role="abstract"]{ column-span: all; font-size: var(--type-fine); color: var(--ink-muted);
+  border-inline-start: 3pt solid var(--brand-accent); padding-inline-start: var(--space-block);
+  margin-block-end: var(--space-block); }
+
+.page > h1, .report > h1{ counter-increment: section; font-size: 11pt; font-weight: 700;
+  margin-block: var(--space-block) var(--space-paragraph); break-after: avoid; }
+.page > h1::before, .report > h1::before{ content: counter(section) ".\00a0"; color: var(--ink-muted); }
+.page > h2, .report > h2{ font-size: 10.5pt; font-weight: 700; margin-block: var(--space-paragraph) 0; break-after: avoid; }
+.page > p, .report > p{ margin-block: 0 var(--space-paragraph); text-align: justify; hyphens: auto; }
+
+figure, table{ break-inside: avoid; margin-block: var(--space-block); }
+figure{ counter-increment: figure; }
+figure img{ display: block; inline-size: 100%; block-size: 32mm; background: #e9e9e9; object-fit: cover; }
+figcaption, caption{ font-size: var(--type-fine); color: var(--ink-muted); margin-block-start: 4pt;
+  text-align: start; caption-side: bottom; }
+figcaption::before{ content: "Figure\00a0" counter(figure) ".\00a0"; font-weight: 700; color: var(--ink); }
+table{ counter-increment: table; inline-size: 100%; border-collapse: collapse; font-size: var(--type-fine); }
+caption::before{ content: "Table\00a0" counter(table) ".\00a0"; font-weight: 700; color: var(--ink); }
+th, td{ text-align: start; padding: 3pt 5pt; border-block-end: .5pt solid #ccc; }
+th{ font-weight: 700; }
+
+a[data-role]{ color: var(--brand-accent); text-decoration: none; }
+a[data-role="citation"]::before{ content: "["; }
+a[data-role="citation"]::after{ content: "]"; }
+a[data-role="cross-reference"][href^="#fig:"]::before{ content: "Figure\00a0"; }
+a[data-role="cross-reference"][href^="#sec:"]::before{ content: "\00a7"; }
+a[data-role="cross-reference"][href^="#tbl:"]::before{ content: "Table\00a0"; }
+
+[data-role="refs"]{ font-size: var(--type-fine); }
+[data-role="refs"] ol, [data-role="refs"] ul{ padding-inline-start: 1.2em; margin: 0; }
+[data-role="refs"] li{ margin-block-end: 3pt; }

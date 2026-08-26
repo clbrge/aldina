@@ -1,0 +1,41 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+:root{ --space-paragraph: var(--space-unit); --space-block: calc(var(--space-unit) * 2); }
+@media print{ :root{ --ink: #000; } }
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ margin: 0; background: var(--paper); }
+body{ font-feature-settings: var(--feat); }
+
+.doc-head{ margin-block-end: var(--space-block); padding-block-end: var(--space-unit); border-block-end: 1pt solid var(--brand-accent); }
+.doc-title{ font-size: 34pt; font-weight: 700; line-height: 1.02; letter-spacing: -.005em; color: var(--ink); text-wrap: balance; }
+.authors{ font-size: var(--type-fine); font-style: italic; color: var(--ink-muted); margin-block-start: 6pt; }
+
+[data-role="abstract"]{ font-style: italic; font-size: calc(var(--type-body) + 3pt); color: var(--ink);
+  line-height: 1.4; margin-block-end: var(--space-block); }
+
+.report > h1, .page > h1{ counter-increment: section; font-size: 15pt; font-weight: 700; line-height: 1.12; margin-block: var(--space-block) var(--space-paragraph); break-after: avoid; }
+.report > h1::before, .page > h1::before{ content: counter(section) "\00a0\00a0"; color: var(--brand-accent); }
+.report > h2, .page > h2{ font-size: 12pt; font-weight: 400; font-style: italic; margin-block: var(--space-block) 0; break-after: avoid; }
+.report > p, .page > p{ margin-block: 0 var(--space-paragraph); text-align: justify; hyphens: auto; }
+strong{ font-weight: 700; }
+em{ font-style: italic; }
+
+figure{ counter-increment: figure; margin-block: var(--space-block); break-inside: avoid; }
+figure img{ display: block; inline-size: 100%; block-size: 50mm; object-fit: cover; background: #f0ece6; }
+figcaption, caption{ font-size: var(--type-fine); font-style: italic; color: var(--ink-muted); margin-block-start: 5pt; text-align: start; caption-side: bottom; line-height: 1.4; }
+figcaption::before{ content: "Fig.\00a0" counter(figure) "\00a0"; font-style: italic; color: var(--brand-accent); }
+table{ counter-increment: table; inline-size: 100%; border-collapse: collapse; font-size: var(--type-fine); font-feature-settings: "tnum" 1, "kern" 1; break-inside: avoid; margin-block: var(--space-block); }
+caption::before{ content: "Table\00a0" counter(table) "\00a0"; font-style: italic; color: var(--brand-accent); }
+th, td{ text-align: start; padding: 4pt 6pt; border-block-end: .5pt solid var(--hairline); }
+th{ font-weight: 600; font-size: var(--type-fine); color: var(--ink); border-block-end: 1pt solid var(--ink); }
+
+a[data-role]{ color: var(--brand-accent); text-decoration: none; }
+a[data-role="citation"]::before{ content: "["; }
+a[data-role="citation"]::after{ content: "]"; }
+a[data-role="cross-reference"][href^="#fig:"]::before{ content: "Fig.\00a0"; }
+a[data-role="cross-reference"][href^="#sec:"]::before{ content: "\00a7\00a0"; }
+a[data-role="cross-reference"][href^="#tbl:"]::before{ content: "Table\00a0"; }
+
+[data-role="refs"]{ font-size: var(--type-fine); line-height: 1.45; }
+[data-role="refs"] ol, [data-role="refs"] ul{ padding-inline-start: 1.4em; margin: 0; }
+[data-role="refs"] li{ margin-block-end: 5pt; }

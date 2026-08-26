@@ -1,0 +1,118 @@
+---
+class: composed
+title: Northwind — Acme Engagement
+---
+
+::::segment{.letter}
+:::sender-block
+Northwind Consulting
+44 Harbour Row
+Bristol BS1 5TF
+:::
+
+:::date
+28 June 2026
+:::
+
+:::recipient-block
+Ms Dana Holt
+Acme Corporation
+1200 Market Street
+London EC2A 4NE
+:::
+
+:::subject
+Engagement summary and invoice
+:::
+
+:::salutation
+Dear Ms Holt,
+:::
+
+Thank you for confirming the engagement. This letter summarises the scope we agreed, and the report
+and invoice that follow set out the deliverables and the amount now due.
+
+The work runs over the next quarter, with the discovery phase beginning the first week of July. The
+report overleaf records the scope in full; the invoice closes the document.
+
+:::closing
+Kind regards,
+:::
+
+:::signature-block
+Jordan Vale
+Principal, Northwind Consulting
+:::
+::::
+
+::::segment{.folio}
+# Scope of Work
+
+The engagement covers a discovery audit of the existing document pipeline, a phased implementation of
+the agreed changes, and a handover package. Each phase has a fixed fee, set out in the invoice that
+follows this report.
+
+## Discovery and audit
+
+We review the current ingestion, conversion, and indexing paths, and produce a written assessment of
+the gaps against the agreed acceptance criteria. The assessment is delivered before implementation
+begins so that the plan can be adjusted while it is still cheap to do so.
+
+## Implementation
+
+Implementation proceeds in two-week increments against the assessment. Each increment ends with a
+working build and a short note recording what changed and what remains.
+
+## Documentation and handover
+
+The final phase produces operator documentation and a recorded handover session, so the work can be
+maintained without further engagement.
+::::
+
+::::segment{.ledger edition=eu-vat}
+:::issuer-block
+Northwind Consulting
+44 Harbour Row
+Bristol BS1 5TF
+VAT GB 218 4471 09
+:::
+
+:::recipient-block
+Acme Corporation
+1200 Market Street
+London EC2A 4NE
+:::
+
+:::document-meta
+Invoice INV-2026-014 · Issued 28 June 2026 · Due 28 July 2026
+:::
+
+:::line-items{cols="description qty unit-price amount"}
+| Description | Qty | Unit price | Amount |
+|---|---|---:|---:|
+| Discovery and audit | 1 | 4,000.00 | 4,000.00 |
+| Implementation | 1 | 9,000.00 | 9,000.00 |
+| Documentation and handover | 1 | 2,000.00 | 2,000.00 |
+:::
+
+:::subtotal
+15,000.00
+:::
+
+:::discount
+−1,500.00
+:::
+
+:::tax
+2,700.00
+:::
+
+:::total
+16,200.00
+:::
+
+:::payment-terms
+Payment due within 30 days by bank transfer. VAT charged at 20% on the discounted subtotal in
+accordance with EU VAT rules (edition: eu-vat).
+:::
+::::

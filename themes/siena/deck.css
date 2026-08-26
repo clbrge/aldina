@@ -1,0 +1,46 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Siena — DECK. Compositions DERIVE from what a slide holds (@layer defaults, via :has); an explicit
+   data-slide-type is a rare, conscious variation and wins via @layer variations. Base is layered so the
+   derivations can override it. safe center degrades an overflow to top so the gate catches it. */
+* { box-sizing: border-box; margin: 0; }
+@page { size: 1280px 720px; margin: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-feature-settings: var(--feat); }
+@media screen { section { margin-block-end: 24px; } }
+
+@layer base, defaults, variations;
+
+@layer base {
+  section { inline-size: 1280px; block-size: 720px; margin-inline: auto; margin-block: 0; overflow: hidden;
+    background: var(--paper); color: var(--ink); break-after: page;
+    padding: 88px 104px; display: flex; flex-direction: column; justify-content: flex-start; gap: .45em; }
+  section h1 { font-size: 60px; line-height: 1.1; font-weight: 700; letter-spacing: -.005em; }
+  section p, section li { font-size: 26px; line-height: 1.45; }
+  section p + p { margin-block-start: .5em; }
+  section ul, section ol { padding-inline-start: 1.1em; }
+  section li { margin-block: .18em; }
+  section a { color: inherit; text-decoration: underline; }
+  section em { font-style: italic; }
+  section strong { font-weight: 700; }
+  section table { border-collapse: collapse; inline-size: 100%; font-size: 22px; font-feature-settings: "tnum" 1, "kern" 1; }
+  section th, section td { text-align: start; padding: .4em .7em; border-block-end: 1px solid var(--rule); }
+  section th { font-size: 18px; font-weight: 600; color: var(--ink-muted); border-block-end: 1.5px solid var(--ink-muted); }
+  section [data-role="kicker"] { font-size: 19px; letter-spacing: .04em; font-weight: 700; color: var(--brand-accent); }
+  section [data-role="stat"] { font-size: 110px; font-weight: 700; line-height: 1; letter-spacing: -.005em; color: var(--brand-accent); font-feature-settings: "tnum" 1, "kern" 1; }
+  section [data-role="callout"] { font-size: 30px; line-height: 1.35; border-inline-start: 4px solid var(--brand-accent); padding-inline-start: .55em; }
+  section [data-role="notes"] { display: none; }
+}
+
+@layer defaults {
+  section:not(:has(ul, ol, table, p ~ p)) { justify-content: safe center; align-items: center; text-align: center; }
+  section:not(:has(ul, ol, table, p ~ p)):has(h1) h1 { font-size: 72px; }
+  section:not(:has(h1)):has([data-role="callout"]) [data-role="callout"] { border-inline-start: 0; padding-inline-start: 0; font-size: 38px; }
+}
+
+@layer variations {
+  section[data-slide-type="session"] { justify-content: center; }
+  section[data-slide-type="session"] h1 { margin-block-end: .3em; }
+  section[data-slide-type="session"] ul { list-style: none; padding-inline-start: 0; }
+  section[data-slide-type="session"] li { font-size: 27px; line-height: 1.4; border-inline-start: 4px solid var(--brand-accent); padding-inline-start: .7em; padding-block: .3em; margin-block: .22em; }
+  section[data-slide-type="session"] li strong { color: var(--brand-accent); }
+}

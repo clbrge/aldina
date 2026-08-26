@@ -8,14 +8,16 @@ Class-agnostic: one validator runs on letters and decks alike.
 
 ```bash
 node src/harness/validate.js <forme.html>      # exit 0 = admitted, 1 = rejected, 2 = harness error
-CHROMIUM=/path/to/chromium node src/harness/validate.js <forme.html>   # override the binary
+CHROMIUM=/path/to/chromium node src/harness/validate.js <forme.html>   # else 'chromium' on PATH
 ```
 
 **One file, one language.** `validate.js` is a Node script; the `measure()` function inside it is
-the browser-side code — it's stringified and injected into a temp copy of the forme (formes stay
-clean), chromium renders it (`--dump-dom`), and Node extracts the JSON and prints the summary.
-No npm dependencies. The only external is the **chromium binary** — unavoidable, because measuring
-rendered CSS needs a real layout engine; Node can't do it alone.
+the browser-side code — it's stringified and `Runtime.evaluate`'d in the page. The browser is a
+**system Chromium** driven over CDP by `chromium.js` (Node's global WebSocket, no npm browser
+dependency); a `data-paged` forme runs PagedJS pagination first, then `Page.printToPDF` projects the
+PDF from the same page. Set `CHROMIUM=/path/to/chromium` (required; there is no bundled download), and
+`ALDINA_NO_SANDBOX=1` only for a container/root deployment that can't use the sandbox. A real layout
+engine is unavoidable here — Node can't measure rendered CSS alone.
 
 ## Checks (v1)
 

@@ -1,0 +1,35 @@
+---
+class: ledger
+type: statement
+class-variant: statement
+format: a4
+opening: $1,000.00
+---
+
+:::issuer-block
+Atlas Advisory\
+14 Quay Street\
+Bristol BS1 6AA
+:::
+
+:::recipient-block
+Marlow & Sons\
+attn. Accounts Payable\
+20 Canal Road\
+Leeds LS1 4DY
+:::
+
+::document-meta[Statement of Account · June 2026 · Opening balance $1,000.00]
+
+:::line-items{cols="date description amount balance"}
+| Date | Description | Amount | Balance |
+|---|---|--:|--:|
+| Jun 03 | Invoice INV-204 | $500.00 | $1,500.00 |
+| Jun 10 | Payment received | −$300.00 | $1,200.00 |
+| Jun 20 | Invoice INV-219 | $800.00 | $2,000.00 |
+:::
+
+:::payment-terms
+Closing balance $2,000.00, due within 30 days. The Balance column is the running balance from the
+opening; the engine checks each row against the recurrence rowᵢ = rowᵢ₋₁ + amount.
+:::

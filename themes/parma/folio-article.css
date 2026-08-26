@@ -1,0 +1,10 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+:root{ --page-w: 210mm; --page-h: 297mm; }
+@page{ size: A4; margin: 0; }
+.page{ position: relative; inline-size: var(--page-w); block-size: var(--page-h);
+  padding: 22mm 24mm 28mm; background: var(--paper); color: var(--ink); overflow: hidden;
+  font: var(--type-body)/var(--leading) var(--font-body);
+  column-count: 2; column-gap: 10mm; counter-reset: section figure table; }
+.doc-head, [data-role="abstract"], [data-role="refs"]{ column-span: all; }
+.page > h1:first-of-type + p::first-letter{ float: inline-start; font-size: 3.2em; line-height: .78; font-weight: 700; color: var(--brand-accent); padding-inline-end: .06em; margin-block-start: .04em; }

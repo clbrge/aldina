@@ -1,0 +1,56 @@
+---
+class: brief
+type: sell-sheet
+format: us-letter
+lang: ar
+dir: rtl
+---
+
+::::zone{name=masthead}
+:::hero
+# عدّة الميدان من تايدلاين
+كل ما يحتاجه الفريق، في حقيبة واحدة متينة.
+:::
+::::
+
+::::zone{name=main}
+:::feature
+طقم من ٢٠ أداة بتصنيف IP67 — يصمد في موقع العمل، مطرًا كان أو شمسًا.
+:::
+
+:::feature
+صينية سريعة التركيب تُعاد ترتيبها في ثوانٍ، دون قطع متناثرة تُفقد.
+:::
+
+:::group
+## المواصفات
+
+| المواصفة | القيمة |
+|---|--:|
+| الأدوات | 20 |
+| الوزن | 1.8 kg |
+| التصنيف | IP67 |
+:::
+::::
+
+::::zone{name=rail}
+:::stat
+٤٫٩ نجوم من ١٢٠٠ مراجعة
+:::
+
+:::callout
+Cuts setup time in half on the average install.
+:::
+::::
+
+::::zone{name=footer}
+::price[$149]
+
+:::cta
+اطلب من tideline.example أو اتصل على ١-٨٠٠-٥٥٥-٠١٤٢.
+:::
+
+:::contact
+تايدلاين للعتاد · hello@tideline.example
+:::
+::::

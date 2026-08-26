@@ -1,0 +1,40 @@
+---
+class: brief
+type: program
+format: us-letter
+---
+
+::::zone{name=welcome}
+:::hero
+# Rooted
+A six-week program for steadier, more resilient days.
+:::
+::::
+
+::::zone{name=included}
+:::feature
+Weekly live sessions — small groups, gentle structure, real practice.
+:::
+
+:::feature
+A daily ten-minute practice you can actually keep.
+:::
+
+:::feature
+A workbook and recordings to return to whenever you need them.
+:::
+::::
+
+::::zone{name=voice}
+:::callout
+"I came in exhausted and left with a rhythm that held — the first thing that's stuck."
+:::
+::::
+
+::::zone{name=enroll}
+::price[$240]
+
+:::contact
+Begins the first Monday of each month · hello@rooted.example
+:::
+::::

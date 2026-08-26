@@ -1,0 +1,8 @@
+{
+  "id": "eu-vat",
+  "rounding": "half-up",
+  "outputs": {
+    "tax": ["round", ["×", 0.2, ["+", "subtotal", "discount"]]],
+    "total": ["+", "subtotal", "discount", "tax"]
+  }
+}

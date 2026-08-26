@@ -1,0 +1,57 @@
+---
+class: letter
+type: business
+class-variant: continuation
+format: us-letter
+---
+
+:::sender-block
+Jane A. Whitfield\
+Hollis Manufacturing, Inc.\
+Akron, OH 44310
+:::
+
+::date[June 28, 2026]
+
+:::recipient-block
+Mr. David Chen\
+Precision Components LLC\
+Pittsburgh, PA 15222
+:::
+
+::subject[RE: Transition Plan for Supply Agreement #PC-2291]
+
+Dear Mr. Chen,
+
+This is paragraph 1 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 2 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 3 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 4 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 5 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 6 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 7 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 8 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 9 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 10 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 11 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+This is paragraph 12 of a deliberately long letter that must flow onto a second page so the continuation running header and the kept-together signature can be exercised. It restates context, sets out an action, and explains the reasoning at enough length that twelve such paragraphs comfortably exceed a single US-letter page under the basel measure.
+
+Sincerely,
+
+:::signature-block
+Jane A. Whitfield\
+Director of Procurement
+:::
+
+::enclosures[Enc.: Transition schedule; Final reconciliation]

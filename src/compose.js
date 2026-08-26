@@ -1,92 +1,137 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (C) 2026 Christophe Le Bars
-// Aldina layout-compose — role-tagged HTML → a static forme. Library + CLI.
+// Aldina layout-compose — role-tagged pivot → a static forme. Library + CLI.
 //
-// Loads a THEME (tokens + the class grammar) and routes the content into it: partition roles into
-// PINNED (positioned by the grammar) vs FLOW (.content), wrap, inline the CSS. The Zen-Garden join.
-// Without a theme it falls back to the self-contained grammar/<class>.css (legacy).
-//   usage:  node src/assign/assign.js <src> --emit | node src/compose.js [--class letter] [--theme oxford] [--theme-dir DIR]
+// Loads a THEME (tokens + the class grammar) and forwards the role-tagged pivot into it nearly as-is —
+// the theme's CSS lays out the carried names ([data-role]/[data-zone]/[data-slide-type]); compose does
+// not restructure. It wraps the pivot in the class's surface element, deriving the wrapper attributes
+// from the document class + front matter. A theme is required — a missing theme is a loud error.
+//   usage:  choirmark toHtml <resolved.cmk> | node src/compose.js --theme oxford [--class letter] [--theme-dir DIR]
 
 import { readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { join } from 'node:path'
 
-// Theme resolution: an external --theme-dir (e.g. private/premium themes) is searched first, then
-// the built-in themes/ (at the repo root, one level up from src/). A named theme that resolves
-// nowhere is an error — no silent fallback.
+// Theme resolution: a search path — the caller's themeDirs (external/private/premium) in order, then
+// the built-in themes/ (one level up from src/). First match wins; a name that resolves nowhere is a
+// loud error naming every dir searched (no silent fallback). A `name@edition` resolves by `name`.
 const BUILTIN_THEMES = fileURLToPath(new URL('../themes/', import.meta.url))
-function themeDirPath (theme, themeDir) {
-  const candidates = (themeDir ? [join(themeDir, theme)] : []).concat(join(BUILTIN_THEMES, theme))
+function themeDirPath (theme, themeDirs) {
+  const name = theme.split('@')[0]
+  const candidates = [...themeDirs.map(d => join(d, name)), join(BUILTIN_THEMES, name)]
   const found = candidates.find(existsSync)
-  if (!found) throw new Error(`compose: theme '${theme}' not found (looked in: ${candidates.join(', ')})`)
+  if (!found) throw new Error(`compose: theme '${name}' not found (looked in: ${candidates.join(', ')})`)
   return found
 }
-const themeCss = (theme, files, themeDir) =>
-  files.map(f => readFileSync(join(themeDirPath(theme, themeDir), f), 'utf8')).join('\n')
+export const cssBreaksOut = css => /<\/style/i.test(css)
 
-const PINNED = { letter: new Set(['sender-block', 'date', 'recipient-block']) }
-
-// deck: per-archetype role→zone routing (the deterministic "route"; archetypes are author-marked)
-const DECK_ZONES = {
-  title: { eyebrow: 'mark', 'big-statement': 'hero', subtitle: 'hero', caption: 'foot' },
-  content: { eyebrow: 'eyebrow', 'slide-title': 'title', 'body-paragraph': 'body', caption: 'aside' },
-  statement: { 'big-statement': 'statement' },
-  stat: { eyebrow: 'eyebrow', 'big-stat': 'stat', caption: 'caption' },
-  colophon: { motto: 'mark', subtitle: 'mark', caption: 'foot' }
+const themeCss = (theme, files, themeDirs, insecure = false) => {
+  const dir = themeDirPath(theme, themeDirs)
+  const css = files.map(f => {
+    const p = join(dir, f)
+    if (!existsSync(p)) throw new Error(`compose: theme '${theme.split('@')[0]}' has no '${f}' — it does not cover this class/variant (looked in ${dir})`)
+    return readFileSync(p, 'utf8')
+  }).join('\n')
+  if (!insecure && cssBreaksOut(css)) throw new Error(`compose: theme '${theme.split('@')[0]}' CSS contains '</style>' — it would break out of the style block and inject markup into the forme the gate measures. Refused; pass --insecure to override with your own theme at your own risk.`)
+  return css
 }
 
-function composeDeck (roleHtml, theme, themeDir) {
-  const slides = [...roleHtml.matchAll(/<section\s+data-archetype="([\w-]*)"(\s+data-ink)?>([\s\S]*?)<\/section>/g)].map(sec => {
-    const arch = sec[1]; const ink = !!sec[2]; const map = DECK_ZONES[arch] || {}
-    const zones = {}; const order = []
-    for (const e of [...sec[3].matchAll(/<(div|h\d|p|ul|ol)\s+data-role="([\w-]+)"[^>]*>[\s\S]*?<\/\1>/g)]) {
-      const z = map[e[2]] || 'body'
-      if (!zones[z]) { zones[z] = []; order.push(z) }
-      zones[z].push(e[0].trim())
-    }
-    const zh = order.map(z => `    <div class="z-${z}" data-zone="${z}">\n      ${zones[z].join('\n      ')}\n    </div>`).join('\n')
-    return `  <section class="slide${ink ? ' ink' : ''} a-${arch}">\n${zh}\n  </section>`
-  }).join('\n')
-  const css = themeCss(theme, ['tokens.css', 'deck.css'], themeDir)
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]))
+
+const geo = meta => (meta.format ? ` data-format="${esc(meta.format)}"` : '') + (meta.window ? ` data-window="${esc(meta.window)}"` : '')
+const intl = meta => (meta.lang ? ` lang="${esc(meta.lang)}"` : '') + (meta.dir ? ` dir="${esc(meta.dir)}"` : '')
+const articleAttrs = (klass, meta) => ` data-class="${esc(klass)}"${geo(meta)}${intl(meta)}`
+const htmlOpen = (meta, minFont, paged) => `<html lang="${esc(meta.lang || 'en')}"${meta.dir ? ` dir="${esc(meta.dir)}"` : ''}${paged ? ' data-paged' : ''} data-min-font="${minFont}">`
+const docTitle = (meta, label) => meta.title ? esc(meta.title) : label
+
+function composeDeck (pivot, theme, themeDirs, meta, insecure) {
+  const css = themeCss(theme, ['tokens.css', 'deck.css'], themeDirs, insecure)
   return `<!doctype html>
-<html lang="en" data-min-font="16">
-<head><meta charset="utf-8"><title>Aldina deck — ${theme}</title>
+${htmlOpen(meta, 16)}
+<head><meta charset="utf-8"><title>${docTitle(meta, 'Aldina deck — ' + esc(theme))}</title>
 <style>
 ${css}</style></head>
 <body>
-${slides}
+${pivot}
 </body>
 </html>
 `
 }
 
-function loadCss (klass, theme, themeDir) {
-  if (theme) return themeCss(theme, ['tokens.css', `${klass}.css`], themeDir)
-  return readFileSync(new URL(`./grammar/${klass}.css`, import.meta.url), 'utf8')
-}
-
-export function compose (roleHtml, klass = 'letter', theme = null, themeDir = null) {
-  if (klass === 'deck') return composeDeck(roleHtml, theme, themeDir)
-  const art = roleHtml.match(/<article([^>]*)>([\s\S]*?)<\/article>/)
-  if (!art) throw new Error('compose: no <article> in role-tagged HTML')
-  const attrs = art[1]
-  const blocks = [...art[2].matchAll(/<(div|ul|ol)\s+data-role="([\w-]+)"[^>]*>[\s\S]*?<\/\1>/g)].map(m => ({ role: m[2], html: m[0].trim() }))
-  const pinSet = PINNED[klass] || new Set()
-  const pinned = blocks.filter(b => pinSet.has(b.role)).map(b => b.html).join('\n    ')
-  const flow = blocks.filter(b => !pinSet.has(b.role)).map(b => b.html).join('\n      ')
-  const css = loadCss(klass, theme, themeDir)
+function composeFolio (pivot, theme, themeDirs, meta, insecure) {
+  const head = meta.title
+    ? `<header class="doc-head"><h1 class="doc-title">${esc(meta.title)}</h1>${meta.authors ? `<p class="authors">${esc(meta.authors)}</p>` : ''}</header>`
+    : ''
+  const report = meta['class-variant'] === 'report'
+  const css = themeCss(theme, ['tokens.css', 'folio.css', report ? 'folio-report.css' : 'folio-article.css'], themeDirs, insecure)
   return `<!doctype html>
-<html lang="en" data-min-font="12">
-<head><meta charset="utf-8"><title>Aldina forme — ${klass}${theme ? ' · ' + theme : ''}</title>
+${htmlOpen(meta, 12, report)}
+<head><meta charset="utf-8"><title>${docTitle(meta, 'Aldina folio — ' + esc(theme))}</title>
 <style>
 ${css}</style></head>
 <body>
-  <article class="page"${attrs}>
-    ${pinned}
-    <section class="content">
-      ${flow}
-    </section>
+  <article class="${report ? 'report' : 'page'}"${articleAttrs('folio', meta)}>
+${head}
+${pivot}
+${report ? '<p id="doc-end" aria-hidden="true" style="block-size:0;font-size:1px;line-height:0;color:transparent">end</p>' : ''}
+  </article>
+</body>
+</html>
+`
+}
+
+function composeLedger (pivot, theme, themeDirs, meta, insecure) {
+  const paged = meta['class-variant'] === 'statement'
+  const css = themeCss(theme, paged ? ['tokens.css', 'ledger-statement.css'] : ['tokens.css', 'ledger.css'], themeDirs, insecure)
+  return `<!doctype html>
+${htmlOpen(meta, 12, paged)}
+<head><meta charset="utf-8"><title>${docTitle(meta, 'Aldina ledger — ' + esc(theme))}</title>
+<style>
+${css}</style></head>
+<body>
+  <article class="${paged ? 'statement' : 'page'}"${articleAttrs('ledger', meta)}>
+${pivot}
+${paged ? '    <p id="doc-end" aria-hidden="true" style="block-size:0;font-size:1px;line-height:0;color:transparent">end</p>' : ''}
+  </article>
+</body>
+</html>
+`
+}
+
+function composeLetterPaged (pivot, theme, themeDirs, meta, insecure) {
+  const css = themeCss(theme, ['tokens.css', 'letter-continuation.css'], themeDirs, insecure)
+  return `<!doctype html>
+${htmlOpen(meta, 12, true)}
+<head><meta charset="utf-8"><title>${docTitle(meta, 'Aldina letter — ' + esc(theme))}</title>
+<style>
+${css}</style></head>
+<body>
+  <article class="letter"${articleAttrs('letter', meta)}>
+${pivot}
+    <p id="doc-end" aria-hidden="true" style="block-size:0;font-size:1px;line-height:0;color:transparent">end</p>
+  </article>
+</body>
+</html>
+`
+}
+
+export function compose (pivot, klass = 'letter', theme = null, themeDirs = [], meta = {}, insecure = false) {
+  if (!theme) throw new Error('compose: a theme is required (e.g. --theme oxford)')
+  if (klass === 'deck') return composeDeck(pivot, theme, themeDirs, meta, insecure)
+  if (klass === 'folio') return composeFolio(pivot, theme, themeDirs, meta, insecure)
+  if (klass === 'ledger') return composeLedger(pivot, theme, themeDirs, meta, insecure)
+  if (klass === 'letter' && meta['class-variant'] === 'continuation') return composeLetterPaged(pivot, theme, themeDirs, meta, insecure)
+  const variant = meta['class-variant']
+  const css = themeCss(theme, ['tokens.css', `${klass}.css`, ...(variant ? [`${klass}-${variant}.css`] : [])], themeDirs, insecure)
+  return `<!doctype html>
+${htmlOpen(meta, 12)}
+<head><meta charset="utf-8"><title>${docTitle(meta, 'Aldina forme — ' + esc(klass) + (theme ? ' · ' + esc(theme) : ''))}</title>
+<style>
+${css}</style></head>
+<body>
+  <article class="page"${articleAttrs(klass, meta)}>
+${pivot}
   </article>
 </body>
 </html>
@@ -96,6 +141,6 @@ ${css}</style></head>
 // ── CLI ──
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const arg = f => process.argv.includes(f) ? process.argv[process.argv.indexOf(f) + 1] : null
-  const themeDir = arg('--theme-dir') || process.env.ALDINA_THEME_DIR || null
-  process.stdout.write(compose(readFileSync(0, 'utf8'), arg('--class') || 'letter', arg('--theme'), themeDir))
+  const themeDirs = (arg('--theme-dir') || process.env.ALDINA_THEME_DIR || '').split(/[:;]/).filter(Boolean)
+  process.stdout.write(compose(readFileSync(0, 'utf8'), arg('--class') || 'letter', arg('--theme'), themeDirs, {}, process.argv.includes('--insecure')))
 }

@@ -1,0 +1,34 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+.page{ display: block; padding: 11mm 14mm;
+  font: var(--type-fine)/1.3 var(--font-body); color: var(--ink); }
+
+[data-zone], [data-role]{ display: block; margin: 0; }
+
+h1{ font-size: 23pt; font-weight: 700; line-height: 1; letter-spacing: -.012em; margin-block: 0 3pt; }
+
+h1 + p{ font-size: var(--type-fine); color: var(--ink-muted); letter-spacing: 0;
+  margin-block: 0 5pt; padding-block-end: 5pt; border-block-end: 1.5pt solid var(--ink); }
+
+h1 + p + p{ font-size: 10.5pt; line-height: 1.36; max-inline-size: 52em;
+  margin-block: 0 6pt; color: var(--ink); }
+
+h2{ font-size: var(--type-fine); font-weight: 700; text-transform: uppercase; letter-spacing: .14em;
+  color: var(--brand-accent); margin-block: 5pt 3pt; padding-block-start: 3pt;
+  border-block-start: .75pt solid var(--ink); break-after: avoid; }
+
+p{ margin-block: 0 1.5pt; max-inline-size: 78ch; }
+
+p:has(> strong:first-child){ font-size: 10pt; margin-block: 4pt 2pt; max-inline-size: none;
+  border-block-end: .5pt solid var(--hairline); padding-block-end: 1.5pt; break-after: avoid; }
+
+p:has(> strong:first-child) em{ float: inline-end; font-style: normal; font-size: var(--type-fine);
+  font-weight: 400; color: var(--ink-muted); font-feature-settings: "tnum" 1; padding-inline-start: 8pt; }
+
+strong{ font-weight: 700; color: var(--ink); }
+
+ul{ margin-block: 0 1.5pt; padding-inline-start: 10pt; list-style: none; max-inline-size: 78ch; }
+li{ position: relative; margin-block-end: 0; }
+li::before{ content: "\2013"; position: absolute; inset-inline-start: -10pt; color: var(--ink-muted); }
+
+a{ color: inherit; text-decoration: none; }

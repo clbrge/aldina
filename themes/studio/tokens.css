@@ -1,0 +1,12 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+/* Copyright (C) 2026 Christophe Le Bars */
+/* Studio theme — TOKENS (expressive/display: oversized type, full-bleed colour field, high-key accent). */
+:root{
+  --font-body: "Helvetica Neue", Arial, "Liberation Sans", sans-serif;
+  --font-display: var(--font-body);
+  --type-body: 11pt; --type-fine: 9pt;
+  --leading: 1.4; --measure: 30em;
+  --margin: 1in; --space-unit: 6pt;
+  --ink: #0a0a0a; --ink-muted: #595959; --ink-inverse: #f6f5f2; --paper: #faf7f2;
+  --field: #14121f; --brand-accent: #ff3b30;
+}
