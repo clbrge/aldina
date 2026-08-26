@@ -9,8 +9,9 @@
 //   usage:  node src/harness/validate.js <forme.html>   (exit 0 admitted · 1 rejected · 2 error)
 //   env:    CHROMIUM=/path/to/chromium (required) · ALDINA_NO_SANDBOX=1 to disable the sandbox
 
-import { readFileSync } from 'node:fs'
-import { basename } from 'node:path'
+import { existsSync, readFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import { basename, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { launch } from './chromium.js'
 import { reconcile } from '../ledger/calc.js'
@@ -135,7 +136,22 @@ function extractLedger () {
   return { cols, rows, subtotal: slot('subtotal'), discount: slot('discount'), tax: slot('tax'), total: slot('total') }
 }
 
-const PAGEDJS = fileURLToPath(new URL('../../node_modules/pagedjs/dist/paged.polyfill.js', import.meta.url))
+// pagedjs exports no subpath, so the polyfill is reached from the package root
+// rather than resolved directly. Walking up from the resolved entry keeps this
+// correct whether the package sits beside us or hoisted above an install of aldina.
+function pagedjsPolyfill () {
+  let dir = dirname(createRequire(import.meta.url).resolve('pagedjs'))
+  while (basename(dir) !== 'pagedjs') {
+    const up = dirname(dir)
+    if (up === dir) throw new Error('gate: could not locate the pagedjs package root')
+    dir = up
+  }
+  const polyfill = join(dir, 'dist', 'paged.polyfill.js')
+  if (!existsSync(polyfill)) throw new Error(`gate: pagedjs is installed but ${polyfill} is missing`)
+  return polyfill
+}
+
+const PAGEDJS = pagedjsPolyfill()
 const PAGEDJS_SOURCE = readFileSync(PAGEDJS, 'utf8')
 
 export const allowRequest = url => /^(data|about|blob):/.test(url)

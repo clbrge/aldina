@@ -3,6 +3,15 @@
 All notable changes to Aldina are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [SemVer](https://semver.org/).
 
+## [0.2.1] — Fix pagedjs resolution when installed as a dependency
+
+### Fixed
+- The gate located pagedjs at a path relative to Aldina's own directory, which only exists when Aldina
+  is the root package. Installed from npm the polyfill is hoisted above it, so loading `src/run.js`
+  threw `ENOENT … node_modules/aldina/node_modules/pagedjs/dist/paged.polyfill.js` and 0.2.0 was
+  unusable as a dependency. The package root is now found through Node's own resolver, which holds
+  whether pagedjs sits beside Aldina or above it.
+
 ## [0.2.0] — The working engine
 
 ### Added
